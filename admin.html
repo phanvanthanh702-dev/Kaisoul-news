@@ -1,0 +1,3683 @@
+<!DOCTYPE html><html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">  <title>KAISOUL NEWS — Admin</title>
+  <meta name="description" content="KAISOUL NEWS Administration">  <link rel="stylesheet" href="style.css">  <style>
+    /* =========================
+       ADMIN LAYOUT
+    ========================= */
+
+    .admin-page {
+      min-height: 100vh;
+      background: var(--bg, #f5f7fb);
+    }
+
+    .admin-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 10px 16px;
+      background: var(--card, #fff);
+      border-bottom: 1px solid var(--border, #e5e7eb);
+      backdrop-filter: blur(14px);
+    }
+
+    .admin-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      font-weight: 800;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .admin-logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: #111827;
+      color: white;
+      font-size: 15px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .admin-logo-text {
+      white-space: nowrap;
+    }
+
+    .admin-logo-text small {
+      display: block;
+      font-size: 10px;
+      opacity: .55;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .admin-header-space {
+      flex: 1;
+    }
+
+    .admin-user {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #e5e7eb;
+      color: #111827;
+      font-weight: 800;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .admin-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .admin-user-info {
+      min-width: 0;
+    }
+
+    .admin-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-user-role {
+      font-size: 11px;
+      opacity: .6;
+    }
+
+    .admin-layout {
+      display: flex;
+      min-height: calc(100vh - 64px);
+    }
+
+    .admin-sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      padding: 16px;
+      background: var(--card, #fff);
+      border-right: 1px solid var(--border, #e5e7eb);
+    }
+
+    .admin-nav-title {
+      margin: 8px 10px 7px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: .45;
+    }
+
+    .admin-nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .admin-nav button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+    }
+
+    .admin-nav button:hover {
+      background: rgba(127,127,127,.08);
+    }
+
+    .admin-nav button.active {
+      background: #111827;
+      color: white;
+    }
+
+    .admin-nav-icon {
+      width: 22px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .admin-main {
+      flex: 1;
+      min-width: 0;
+      padding: 24px;
+    }
+
+    .admin-section {
+      display: none;
+      animation: adminFade .18s ease;
+    }
+
+    .admin-section.active {
+      display: block;
+    }
+
+    @keyframes adminFade {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .admin-section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .admin-section-head h1 {
+      margin: 0 0 5px;
+      font-size: clamp(22px, 4vw, 30px);
+    }
+
+    .admin-section-head p {
+      margin: 0;
+      opacity: .6;
+      font-size: 13px;
+    }
+
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .admin-btn {
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 1px solid var(--border, #e5e7eb);
+      border-radius: 10px;
+      background: var(--card, #fff);
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .admin-btn.primary {
+      background: #111827;
+      border-color: #111827;
+      color: #fff;
+    }
+
+    .admin-btn.danger {
+      background: #b91c1c;
+      border-color: #b91c1c;
+      color: #fff;
+    }
+
+    .admin-btn.ghost {
+      background: transparent;
+    }
+
+    .admin-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .admin-stat {
+      padding: 18px;
+      background: var(--card, #fff);
+      border: 1px solid var(--border, #e5e7eb);
+      border-radius: 16px;
+    }
+
+    .admin-stat-label {
+      font-size: 12px;
+      opacity: .58;
+      margin-bottom: 8px;
+    }
+
+    .admin-stat-value {
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .admin-stat-note {
+      margin-top: 8px;
+      font-size: 11px;
+      opacity: .5;
+    }
+
+    /* =========================
+       CARDS / TABLES
+    ========================= */
+
+    .admin-card {
+      background: var(--card, #fff);
+      border: 1px solid var(--border, #e5e7eb);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .admin-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 17px;
+      border-bottom: 1px solid var(--border, #e5e7eb);
+    }
+
+    .admin-card-head h2 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .admin-card-body {
+      padding: 17px;
+    }
+
+    .admin-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+    }
+
+    .admin-table th,
+    .admin-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border, #e5e7eb);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 12px;
+    }
+
+    .admin-table th {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      opacity: .5;
+      white-space: nowrap;
+    }
+
+    .admin-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .admin-table-title {
+      font-weight: 750;
+      max-width: 330px;
+    }
+
+    .admin-table-muted {
+      opacity: .55;
+    }
+
+    .admin-mini-btn {
+      padding: 6px 9px;
+      border-radius: 8px;
+      border: 1px solid var(--border, #e5e7eb);
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .admin-mini-btn.danger {
+      color: #b91c1c;
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(127,127,127,.1);
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .admin-badge.green {
+      color: #15803d;
+      background: rgba(34,197,94,.12);
+    }
+
+    .admin-badge.orange {
+      color: #c2410c;
+      background: rgba(249,115,22,.12);
+    }
+
+    .admin-badge.red {
+      color: #b91c1c;
+      background: rgba(239,68,68,.12);
+    }
+
+    .admin-badge.blue {
+      color: #1d4ed8;
+      background: rgba(59,130,246,.12);
+    }
+
+    /* =========================
+       FORMS
+    ========================= */
+
+    .admin-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .admin-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .admin-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .admin-field label {
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .admin-field input,
+    .admin-field textarea,
+    .admin-field select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 11px 12px;
+      border: 1px solid var(--border, #d1d5db);
+      border-radius: 10px;
+      background: var(--bg, #fff);
+      color: inherit;
+      font: inherit;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .admin-field textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    .admin-field input:focus,
+    .admin-field textarea:focus,
+    .admin-field select:focus {
+      border-color: #6b7280;
+    }
+
+    .admin-help {
+      font-size: 11px;
+      opacity: .5;
+      line-height: 1.45;
+    }
+
+    .admin-checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .admin-check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .admin-check input {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* =========================
+       FILTERS
+    ========================= */
+
+    .admin-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .admin-filter-bar input,
+    .admin-filter-bar select {
+      min-height: 39px;
+      padding: 8px 11px;
+      border: 1px solid var(--border, #e5e7eb);
+      border-radius: 9px;
+      background: var(--card, #fff);
+      color: inherit;
+      font: inherit;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .admin-filter-bar input {
+      min-width: min(300px, 100%);
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    .admin-mobile-menu {
+      display: none;
+    }
+
+    .admin-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: rgba(0,0,0,.45);
+    }
+
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      place-items: center;
+      padding: 16px;
+      background: rgba(0,0,0,.45);
+    }
+
+    .admin-modal.open {
+      display: grid;
+    }
+
+    .admin-modal-box {
+      width: min(720px, 100%);
+      max-height: min(90vh, 850px);
+      overflow: auto;
+      border-radius: 18px;
+      background: var(--card, #fff);
+      border: 1px solid var(--border, #e5e7eb);
+      box-shadow: 0 25px 80px rgba(0,0,0,.25);
+    }
+
+    .admin-modal-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 17px;
+      background: var(--card, #fff);
+      border-bottom: 1px solid var(--border, #e5e7eb);
+    }
+
+    .admin-modal-head h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .admin-close {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 9px;
+      background: rgba(127,127,127,.1);
+      color: inherit;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .admin-modal-body {
+      padding: 18px;
+    }
+
+    .admin-alert {
+      display: none;
+      margin-bottom: 15px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(239,68,68,.1);
+      color: #b91c1c;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .admin-alert.show {
+      display: block;
+    }
+
+    .admin-loading {
+      padding: 30px;
+      text-align: center;
+      opacity: .55;
+      font-size: 13px;
+    }
+
+    .admin-empty {
+      padding: 30px 18px;
+      text-align: center;
+      opacity: .55;
+      font-size: 13px;
+    }
+
+    .admin-pagination {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 12px 14px;
+      border-top: 1px solid var(--border, #e5e7eb);
+    }
+
+    .admin-pagination button {
+      min-width: 34px;
+      height: 34px;
+      padding: 0 9px;
+      border: 1px solid var(--border, #e5e7eb);
+      border-radius: 8px;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-size: 11px;
+    }
+
+    .admin-pagination button.active {
+      background: #111827;
+      color: #fff;
+      border-color: #111827;
+    }
+
+    @media (max-width: 900px) {
+      .admin-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .admin-sidebar {
+        position: fixed;
+        top: 64px;
+        bottom: 0;
+        left: 0;
+        z-index: 160;
+        transform: translateX(-105%);
+        transition: transform .2s ease;
+        box-shadow: 15px 0 40px rgba(0,0,0,.12);
+      }
+
+      .admin-sidebar.open {
+        transform: translateX(0);
+      }
+
+      .admin-mobile-menu {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 10px;
+        background: rgba(127,127,127,.1);
+        color: inherit;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .admin-overlay.open {
+        display: block;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .admin-main {
+        padding: 15px;
+      }
+
+      .admin-section-head {
+        flex-direction: column;
+      }
+
+      .admin-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .admin-stat {
+        padding: 14px;
+      }
+
+      .admin-stat-value {
+        font-size: 21px;
+      }
+
+      .admin-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-field.full {
+        grid-column: auto;
+      }
+
+      .admin-user-info {
+        display: none;
+      }
+
+      .admin-logo-text {
+        display: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .admin-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style></head><body>
+<div class="admin-page">  <!-- HEADER -->  <header class="admin-header">
+    <button class="admin-mobile-menu" id="adminMobileMenu" aria-label="Mở menu">
+      ☰
+    </button><a class="admin-logo" href="index.html">
+  <span class="admin-logo-mark">KN</span>
+  <span class="admin-logo-text">
+    KAISOUL NEWS
+    <small>Administration</small>
+  </span>
+</a>
+
+<div class="admin-header-space"></div>
+
+<div class="admin-user">
+  <div class="admin-avatar" id="adminAvatar">K</div>
+  <div class="admin-user-info">
+    <div class="admin-user-name" id="adminUserName">Đang kiểm tra...</div>
+    <div class="admin-user-role">Administrator</div>
+  </div>
+</div>
+
+<button class="admin-btn ghost" id="adminLogoutBtn">
+  Đăng xuất
+</button>
+
+  </header>  <div class="admin-layout"><!-- SIDEBAR -->
+<aside class="admin-sidebar" id="adminSidebar">
+
+  <div class="admin-nav-title">Tổng quan</div>
+
+  <nav class="admin-nav">
+    <button class="active" data-section="dashboard">
+      <span class="admin-nav-icon">▦</span>
+      Dashboard
+    </button>
+  </nav>
+
+  <div class="admin-nav-title">Nội dung</div>
+
+  <nav class="admin-nav">
+    <button data-section="articles">
+      <span class="admin-nav-icon">▤</span>
+      Bài viết
+    </button>
+
+    <button data-section="categories">
+      <span class="admin-nav-icon">▥</span>
+      Danh mục
+    </button>
+
+    <button data-section="comments">
+      <span class="admin-nav-icon">◌</span>
+      Bình luận
+    </button>
+  </nav>
+
+  <div class="admin-nav-title">Hệ thống</div>
+
+  <nav class="admin-nav">
+    <button data-section="users">
+      <span class="admin-nav-icon">♙</span>
+      Người dùng
+    </button>
+
+    <button data-section="settings">
+      <span class="admin-nav-icon">⚙</span>
+      Cài đặt
+    </button>
+
+    <button data-section="logs">
+      <span class="admin-nav-icon">≡</span>
+      Nhật ký
+    </button>
+  </nav>
+
+  <div style="margin-top:20px;">
+    <a href="index.html" class="admin-btn" style="display:block;text-align:center;text-decoration:none;">
+      ← Về trang tin
+    </a>
+  </div>
+
+</aside>
+
+<div class="admin-overlay" id="adminOverlay"></div>
+
+<!-- MAIN -->
+<main class="admin-main">
+
+  <div id="adminGlobalAlert" class="admin-alert"></div>
+
+  <!-- ================= DASHBOARD ================= -->
+
+  <section class="admin-section active" id="section-dashboard">
+
+    <div class="admin-section-head">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Tổng quan hoạt động của KAISOUL NEWS.</p>
+      </div>
+
+      <div class="admin-actions">
+        <button class="admin-btn" id="refreshDashboardBtn">
+          ↻ Làm mới
+        </button>
+        <button class="admin-btn primary" id="dashboardNewArticleBtn">
+          + Bài viết
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-stats">
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Tổng bài viết</div>
+        <div class="admin-stat-value" id="statArticles">0</div>
+        <div class="admin-stat-note">Tất cả bài viết</div>
+      </div>
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Đã xuất bản</div>
+        <div class="admin-stat-value" id="statPublished">0</div>
+        <div class="admin-stat-note">Đang hiển thị</div>
+      </div>
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Người dùng</div>
+        <div class="admin-stat-value" id="statUsers">0</div>
+        <div class="admin-stat-note">KAISOUL ID</div>
+      </div>
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Bình luận</div>
+        <div class="admin-stat-value" id="statComments">0</div>
+        <div class="admin-stat-note">Tổng bình luận</div>
+      </div>
+
+    </div>
+
+    <div class="admin-stats">
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Lượt xem</div>
+        <div class="admin-stat-value" id="statViews">0</div>
+        <div class="admin-stat-note">Dữ liệu thực tế</div>
+      </div>
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Lượt thích</div>
+        <div class="admin-stat-value" id="statLikes">0</div>
+        <div class="admin-stat-note">Không tạo số giả</div>
+      </div>
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Bài nổi bật</div>
+        <div class="admin-stat-value" id="statFeatured">0</div>
+        <div class="admin-stat-note">Featured</div>
+      </div>
+
+      <div class="admin-stat">
+        <div class="admin-stat-label">Tin nóng</div>
+        <div class="admin-stat-value" id="statBreaking">0</div>
+        <div class="admin-stat-note">Breaking news</div>
+      </div>
+
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-card-head">
+        <h2>Bài viết mới nhất</h2>
+        <button class="admin-mini-btn" data-go="articles">
+          Xem tất cả
+        </button>
+      </div>
+
+      <div id="dashboardRecentArticles">
+        <div class="admin-loading">Đang tải...</div>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-card-head">
+        <h2>Hoạt động quản trị gần đây</h2>
+        <button class="admin-mini-btn" data-go="logs">
+          Xem nhật ký
+        </button>
+      </div>
+
+      <div id="dashboardLogs">
+        <div class="admin-loading">Đang tải...</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= ARTICLES ================= -->
+
+  <section class="admin-section" id="section-articles">
+
+    <div class="admin-section-head">
+      <div>
+        <h1>Bài viết</h1>
+        <p>Quản lý nội dung xuất bản trên KAISOUL NEWS.</p>
+      </div>
+
+      <div class="admin-actions">
+        <button class="admin-btn" id="refreshArticlesBtn">
+          ↻ Làm mới
+        </button>
+        <button class="admin-btn primary" id="newArticleBtn">
+          + Thêm bài viết
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-filter-bar">
+      <input
+        type="search"
+        id="articleSearch"
+        placeholder="Tìm bài viết..."
+      >
+
+      <select id="articleStatusFilter">
+        <option value="">Tất cả trạng thái</option>
+        <option value="published">Đã xuất bản</option>
+        <option value="draft">Bản nháp</option>
+        <option value="hidden">Đã ẩn</option>
+      </select>
+
+      <select id="articleCategoryFilter">
+        <option value="">Tất cả danh mục</option>
+      </select>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Bài viết</th>
+              <th>Danh mục</th>
+              <th>Trạng thái</th>
+              <th>Views</th>
+              <th>Likes</th>
+              <th>Ngày</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+
+          <tbody id="articlesTableBody">
+            <tr>
+              <td colspan="7">
+                <div class="admin-loading">Đang tải...</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= CATEGORIES ================= -->
+
+  <section class="admin-section" id="section-categories">
+
+    <div class="admin-section-head">
+      <div>
+        <h1>Danh mục</h1>
+        <p>Quản lý các chuyên mục tin tức.</p>
+      </div>
+
+      <button class="admin-btn primary" id="newCategoryBtn">
+        + Thêm danh mục
+      </button>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Tên</th>
+              <th>Slug</th>
+              <th>Số bài</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+
+          <tbody id="categoriesTableBody">
+            <tr>
+              <td colspan="4">
+                <div class="admin-loading">Đang tải...</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= COMMENTS ================= -->
+
+  <section class="admin-section" id="section-comments">
+
+    <div class="admin-section-head">
+      <div>
+        <h1>Bình luận</h1>
+        <p>Kiểm duyệt bình luận của người dùng.</p>
+      </div>
+
+      <button class="admin-btn" id="refreshCommentsBtn">
+        ↻ Làm mới
+      </button>
+    </div>
+
+    <div class="admin-filter-bar">
+      <input
+        type="search"
+        id="commentSearch"
+        placeholder="Tìm bình luận hoặc KAISOUL ID..."
+      >
+
+      <select id="commentStatusFilter">
+        <option value="">Tất cả</option>
+        <option value="visible">Hiển thị</option>
+        <option value="hidden">Đã ẩn</option>
+      </select>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Người dùng</th>
+              <th>Bình luận</th>
+              <th>Bài viết</th>
+              <th>Trạng thái</th>
+              <th>Thời gian</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+
+          <tbody id="commentsTableBody">
+            <tr>
+              <td colspan="6">
+                <div class="admin-loading">Đang tải...</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= USERS ================= -->
+
+  <section class="admin-section" id="section-users">
+
+    <div class="admin-section-head">
+      <div>
+        <h1>Người dùng</h1>
+        <p>Danh sách tài khoản đã xác thực với KAISOUL NEWS.</p>
+      </div>
+
+      <button class="admin-btn" id="refreshUsersBtn">
+        ↻ Làm mới
+      </button>
+    </div>
+
+    <div class="admin-filter-bar">
+      <input
+        type="search"
+        id="userSearch"
+        placeholder="Tìm KAISOUL ID..."
+      >
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Người dùng</th>
+              <th>KAISOUL ID</th>
+              <th>Vai trò</th>
+              <th>Ngày tham gia</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+
+          <tbody id="usersTableBody">
+            <tr>
+              <td colspan="5">
+                <div class="admin-loading">Đang tải...</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= SETTINGS ================= -->
+
+  <section class="admin-section" id="section-settings">
+
+    <div class="admin-section-head">
+      <div>
+        <h1>Cài đặt</h1>
+        <p>Cấu hình hoạt động của KAISOUL NEWS.</p>
+      </div>
+
+      <button class="admin-btn primary" id="saveSettingsBtn">
+        Lưu cài đặt
+      </button>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-card-head">
+        <h2>Thông tin website</h2>
+      </div>
+
+      <div class="admin-card-body">
+        <div class="admin-form-grid">
+
+          <div class="admin-field">
+            <label for="settingSiteName">Tên website</label>
+            <input id="settingSiteName" type="text">
+          </div>
+
+          <div class="admin-field">
+            <label for="settingSiteDescription">Mô tả</label>
+            <input id="settingSiteDescription" type="text">
+          </div>
+
+          <div class="admin-field">
+            <label for="settingContactEmail">Email liên hệ</label>
+            <input id="settingContactEmail" type="email">
+          </div>
+
+          <div class="admin-field">
+            <label for="settingDefaultCategory">Danh mục mặc định</label>
+            <select id="settingDefaultCategory"></select>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-card-head">
+        <h2>Hiển thị</h2>
+      </div>
+
+      <div class="admin-card-body">
+
+        <div class="admin-checks">
+
+          <label class="admin-check">
+            <input type="checkbox" id="settingShowBreaking">
+            Hiển thị thanh tin nóng
+          </label>
+
+          <label class="admin-check">
+            <input type="checkbox" id="settingShowFeatured">
+            Hiển thị bài nổi bật
+          </label>
+
+          <label class="admin-check">
+            <input type="checkbox" id="settingAllowComments">
+            Cho phép bình luận
+          </label>
+
+          <label class="admin-check">
+            <input type="checkbox" id="settingAllowGuests">
+            Cho phép khách đọc tin
+          </label>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-card-head">
+        <h2>Thống kê</h2>
+      </div>
+
+      <div class="admin-card-body">
+
+        <div class="admin-help">
+          KAISOUL NEWS không sử dụng số lượt xem, lượt thích,
+          bình luận hoặc người dùng giả. Các thống kê được lấy từ
+          dữ liệu tương tác thực tế.
+        </div>
+
+        <br>
+
+        <div class="admin-checks">
+
+          <label class="admin-check">
+            <input type="checkbox" id="settingAnalyticsEnabled">
+            Bật thống kê
+          </label>
+
+          <label class="admin-check">
+            <input type="checkbox" id="settingUniqueViews">
+            Chống tính lặp lượt xem
+          </label>
+
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= LOGS ================= -->
+
+  <section class="admin-section" id="section-logs">
+
+    <div class="admin-section-head">
+      <div>
+        <h1>Nhật ký quản trị</h1>
+        <p>Lịch sử các thao tác quan trọng của administrator.</p>
+      </div>
+
+      <button class="admin-btn" id="refreshLogsBtn">
+        ↻ Làm mới
+      </button>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Admin</th>
+              <th>Hành động</th>
+              <th>Đối tượng</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+
+          <tbody id="logsTableBody">
+            <tr>
+              <td colspan="5">
+                <div class="admin-loading">Đang tải...</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+  </div>
+</div><!-- ================= ARTICLE MODAL ================= --><div class="admin-modal" id="articleModal">
+  <div class="admin-modal-box"><div class="admin-modal-head">
+  <h2 id="articleModalTitle">Thêm bài viết</h2>
+
+  <button class="admin-close" data-close-modal="articleModal">
+    ×
+  </button>
+</div>
+
+<div class="admin-modal-body">
+
+  <div class="admin-alert" id="articleFormAlert"></div>
+
+  <form id="articleForm">
+
+    <input type="hidden" id="articleId">
+
+    <div class="admin-form-grid">
+
+      <div class="admin-field full">
+        <label for="articleTitle">Tiêu đề *</label>
+        <input
+          id="articleTitle"
+          type="text"
+          maxlength="300"
+          required
+          placeholder="Nhập tiêu đề bài viết..."
+        >
+      </div>
+
+      <div class="admin-field full">
+        <label for="articleCover">Ảnh bìa</label>
+        <input
+          id="articleCover"
+          type="url"
+          placeholder="https://..."
+        >
+        <div class="admin-help">
+          Không bắt buộc. Không nhập ảnh giả.
+        </div>
+      </div>
+
+      <div class="admin-field">
+        <label for="articleCategory">Danh mục *</label>
+        <select id="articleCategory" required></select>
+      </div>
+
+      <div class="admin-field">
+        <label for="articleAuthor">Tác giả</label>
+        <input
+          id="articleAuthor"
+          type="text"
+          placeholder="Tên tác giả"
+        >
+      </div>
+
+      <div class="admin-field">
+        <label for="articleSource">Nguồn</label>
+        <input
+          id="articleSource"
+          type="text"
+          placeholder="Nguồn tin"
+        >
+      </div>
+
+      <div class="admin-field">
+        <label for="articlePublishedAt">Thời gian xuất bản</label>
+        <input
+          id="articlePublishedAt"
+          type="datetime-local"
+        >
+      </div>
+
+      <div class="admin-field full">
+        <label for="articleTags">Tags</label>
+        <input
+          id="articleTags"
+          type="text"
+          placeholder="bóng đá, công nghệ, Việt Nam"
+        >
+      </div>
+
+      <div class="admin-field full">
+        <label for="articleContent">Nội dung *</label>
+        <textarea
+          id="articleContent"
+          required
+          placeholder="Nhập nội dung bài viết..."
+        ></textarea>
+
+        <div class="admin-help">
+          Nội dung phải được máy chủ kiểm tra và sanitize trước khi lưu.
+        </div>
+      </div>
+
+      <div class="admin-field">
+        <label for="articleStatus">Trạng thái</label>
+
+        <select id="articleStatus">
+          <option value="draft">Bản nháp</option>
+          <option value="published">Xuất bản</option>
+          <option value="hidden">Ẩn</option>
+        </select>
+      </div>
+
+      <div class="admin-field">
+        <label>Hiển thị đặc biệt</label>
+
+        <div class="admin-checks">
+
+          <label class="admin-check">
+            <input type="checkbox" id="articleFeatured">
+            Nổi bật
+          </label>
+
+          <label class="admin-check">
+            <input type="checkbox" id="articleBreaking">
+            Tin nóng
+          </label>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="admin-actions" style="margin-top:18px;justify-content:flex-end;">
+      <button
+        type="button"
+        class="admin-btn"
+        data-close-modal="articleModal"
+      >
+        Hủy
+      </button>
+
+      <button
+        type="submit"
+        class="admin-btn primary"
+        id="saveArticleBtn"
+      >
+        Lưu bài viết
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+  </div>
+</div><!-- ================= CATEGORY MODAL ================= --><div class="admin-modal" id="categoryModal">
+  <div class="admin-modal-box" style="max-width:500px;"><div class="admin-modal-head">
+  <h2 id="categoryModalTitle">Thêm danh mục</h2>
+
+  <button class="admin-close" data-close-modal="categoryModal">
+    ×
+  </button>
+</div>
+
+<div class="admin-modal-body">
+
+  <div class="admin-alert" id="categoryFormAlert"></div>
+
+  <form id="categoryForm">
+
+    <input type="hidden" id="categoryId">
+
+    <div class="admin-field">
+      <label for="categoryName">Tên danh mục *</label>
+      <input
+        id="categoryName"
+        type="text"
+        maxlength="100"
+        required
+        placeholder="Ví dụ: Thể thao"
+      >
+    </div>
+
+    <div class="admin-field" style="margin-top:14px;">
+      <label for="categorySlug">Slug</label>
+      <input
+        id="categorySlug"
+        type="text"
+        maxlength="120"
+        placeholder="the-thao"
+      >
+    </div>
+
+    <div class="admin-actions" style="margin-top:18px;justify-content:flex-end;">
+      <button
+        type="button"
+        class="admin-btn"
+        data-close-modal="categoryModal"
+      >
+        Hủy
+      </button>
+
+      <button
+        type="submit"
+        class="admin-btn primary"
+      >
+        Lưu danh mục
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+  </div>
+</div><!-- ================= APP SCRIPT ================= --><script>
+(() => {
+  "use strict";
+
+  /*
+   * KAISOUL NEWS ADMIN
+   *
+   * Quan trọng:
+   * - Không kiểm tra password ở frontend.
+   * - Không hardcode KAISOUL ID admin.
+   * - Backend phải xác thực token và role admin.
+   * - Không tạo số liệu giả.
+   */
+
+  const CONFIG = {
+    API_BASE:
+      window.KAISOUL_NEWS_API ||
+      localStorage.getItem("kaisoul_news_api") ||
+      "/api",
+
+    TOKEN_KEY: "kaisoul_news_token",
+    USER_KEY: "kaisoul_news_user",
+
+    NEWS_HOME: "index.html"
+  };
+
+  const state = {
+    token: localStorage.getItem(CONFIG.TOKEN_KEY) || "",
+    user: null,
+    categories: [],
+    articles: [],
+    comments: [],
+    users: [],
+    logs: [],
+    settings: {},
+    currentArticlePage: 1
+  };
+
+  const $ = selector => document.querySelector(selector);
+
+  const $$ = selector => Array.from(document.querySelectorAll(selector));
+
+  /* =========================
+     HELPERS
+  ========================= */
+
+  function escapeHTML(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function formatNumber(value) {
+    const n = Number(value || 0);
+
+    if (!Number.isFinite(n)) {
+      return "0";
+    }
+
+    return n.toLocaleString("vi-VN");
+  }
+
+  function formatDate(value) {
+    if (!value) return "—";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "—";
+    }
+
+    return date.toLocaleString("vi-VN", {
+      dateStyle: "short",
+      timeStyle: "short"
+    });
+  }
+
+  function getCategoryName(id) {
+    const category = state.categories.find(
+      item => String(item.id) === String(id)
+    );
+
+    return category?.name || "—";
+  }
+
+  function showAlert(element, message) {
+    if (!element) return;
+
+    element.textContent = message || "";
+    element.classList.toggle("show", Boolean(message));
+  }
+
+  function globalAlert(message) {
+    const box = $("#adminGlobalAlert");
+
+    if (!box) return;
+
+    box.textContent = message || "";
+    box.classList.toggle("show", Boolean(message));
+
+    if (message) {
+      setTimeout(() => {
+        box.classList.remove("show");
+      }, 5000);
+    }
+  }
+
+  async function apiRequest(path, options = {}) {
+    const headers = {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    };
+
+    if (state.token) {
+      headers.Authorization = `Bearer ${state.token}`;
+    }
+
+    const response = await fetch(
+      `${CONFIG.API_BASE}${path}`,
+      {
+        ...options,
+        headers
+      }
+    );
+
+    let data = null;
+
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+
+    if (response.status === 401 || response.status === 403) {
+      if (response.status === 401) {
+        logout(false);
+      }
+
+      throw new Error(
+        data?.message ||
+        "Bạn không có quyền thực hiện thao tác này."
+      );
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        data?.message ||
+        data?.error ||
+        `HTTP ${response.status}`
+      );
+    }
+
+    return data;
+  }
+
+  /* =========================
+     AUTH
+  ========================= */
+
+  async function checkAdmin() {
+    if (!state.token) {
+      redirectToLogin();
+      return false;
+    }
+
+    try {
+      const data = await apiRequest("/auth/me");
+
+      state.user = data?.user || data;
+
+      /*
+       * Frontend chỉ dùng role để hiển thị.
+       * Backend vẫn phải kiểm tra admin ở mọi API admin.
+       */
+
+      if (!isAdminUser(state.user)) {
+        showAccessDenied();
+        return false;
+      }
+
+      renderAdminUser();
+      return true;
+
+    } catch (error) {
+      console.error(error);
+
+      if (state.token) {
+        globalAlert(error.message);
+      }
+
+      return false;
+    }
+  }
+
+  function isAdminUser(user) {
+    if (!user) return false;
+
+    return (
+      user.role === "admin" ||
+      user.role === "administrator" ||
+      user.isAdmin === true
+    );
+  }
+
+  function renderAdminUser() {
+    const user = state.user || {};
+
+    const id =
+      user.kaisoulId ||
+      user.username ||
+      user.id ||
+      "KAISOUL";
+
+    const name =
+      user.name ||
+      user.displayName ||
+      id;
+
+    $("#adminUserName").textContent = name;
+
+    const avatar = $("#adminAvatar");
+
+    if (user.avatar) {
+      avatar.innerHTML = `<img src="${escapeHTML(user.avatar)}" alt="">`;
+    } else {
+      avatar.textContent =
+        String(name).trim().charAt(0).toUpperCase() || "K";
+    }
+  }
+
+  function showAccessDenied() {
+    document.body.innerHTML = `
+      <div style="
+        min-height:100vh;
+        display:grid;
+        place-items:center;
+        padding:24px;
+        font-family:system-ui,sans-serif;
+        background:#f5f7fb;
+      ">
+        <div style="
+          width:min(440px,100%);
+          padding:28px;
+          background:white;
+          border:1px solid #e5e7eb;
+          border-radius:18px;
+          text-align:center;
+        ">
+          <div style="font-size:42px;margin-bottom:12px;">403</div>
+
+          <h1 style="margin:0 0 8px;">
+            Không có quyền truy cập
+          </h1>
+
+          <p style="opacity:.6;line-height:1.5;">
+            Tài khoản KAISOUL ID hiện tại không có quyền
+            quản trị KAISOUL NEWS.
+          </p>
+
+          <a
+            href="index.html"
+            style="
+              display:inline-block;
+              margin-top:14px;
+              padding:10px 15px;
+              border-radius:10px;
+              background:#111827;
+              color:white;
+              text-decoration:none;
+              font-weight:700;
+            "
+          >
+            Về trang chủ
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  function redirectToLogin() {
+    /*
+     * Authentication production phải được thực hiện
+     * bởi KAISOUL ID/backend.
+     */
+    const returnURL =
+      encodeURIComponent(window.location.href);
+
+    window.location.href =
+      `${CONFIG.NEWS_HOME}?login=1&return=${returnURL}`;
+  }
+
+  function logout(redirect = true) {
+    localStorage.removeItem(CONFIG.TOKEN_KEY);
+    localStorage.removeItem(CONFIG.USER_KEY);
+
+    state.token = "";
+    state.user = null;
+
+    if (redirect) {
+      window.location.href = CONFIG.NEWS_HOME;
+    }
+  }
+
+  /* =========================
+     NAVIGATION
+  ========================= */
+
+  function openSection(name) {
+    $$(".admin-section").forEach(section => {
+      section.classList.toggle(
+        "active",
+        section.id === `section-${name}`
+      );
+    });
+
+    $$(".admin-nav button[data-section]").forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.section === name
+      );
+    });
+
+    closeMobileSidebar();
+
+    if (name === "dashboard") {
+      loadDashboard();
+    }
+
+    if (name === "articles") {
+      loadArticles();
+    }
+
+    if (name === "categories") {
+      loadCategories();
+    }
+
+    if (name === "comments") {
+      loadComments();
+    }
+
+    if (name === "users") {
+      loadUsers();
+    }
+
+    if (name === "settings") {
+      loadSettings();
+    }
+
+    if (name === "logs") {
+      loadLogs();
+    }
+  }
+
+  function openMobileSidebar() {
+    $("#adminSidebar").classList.add("open");
+    $("#adminOverlay").classList.add("open");
+  }
+
+  function closeMobileSidebar() {
+    $("#adminSidebar").classList.remove("open");
+    $("#adminOverlay").classList.remove("open");
+  }
+
+  /* =========================
+     DASHBOARD
+  ========================= */
+
+  async function loadDashboard() {
+    try {
+      const data = await apiRequest("/admin/dashboard");
+
+      const stats = data?.stats || data || {};
+
+      $("#statArticles").textContent =
+        formatNumber(
+          stats.articles ??
+          stats.totalArticles
+        );
+
+      $("#statPublished").textContent =
+        formatNumber(
+          stats.published ??
+          stats.publishedArticles
+        );
+
+      $("#statUsers").textContent =
+        formatNumber(
+          stats.users ??
+          stats.totalUsers
+        );
+
+      $("#statComments").textContent =
+        formatNumber(
+          stats.comments ??
+          stats.totalComments
+        );
+
+      $("#statViews").textContent =
+        formatNumber(
+          stats.views ??
+          stats.totalViews
+        );
+
+      $("#statLikes").textContent =
+        formatNumber(
+          stats.likes ??
+          stats.totalLikes
+        );
+
+      $("#statFeatured").textContent =
+        formatNumber(stats.featured);
+
+      $("#statBreaking").textContent =
+        formatNumber(stats.breaking);
+
+      const recent =
+        data?.recentArticles ||
+        data?.articles ||
+        [];
+
+      renderDashboardArticles(recent.slice(0, 8));
+
+      const logs =
+        data?.recentLogs ||
+        data?.logs ||
+        [];
+
+      renderDashboardLogs(logs.slice(0, 8));
+
+    } catch (error) {
+      console.error(error);
+      globalAlert(error.message);
+    }
+  }
+
+  function renderDashboardArticles(articles) {
+    const box = $("#dashboardRecentArticles");
+
+    if (!articles.length) {
+      box.innerHTML = `
+        <div class="admin-empty">
+          Chưa có bài viết.
+        </div>
+      `;
+      return;
+    }
+
+    box.innerHTML = `
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Tiêu đề</th>
+              <th>Danh mục</th>
+              <th>Trạng thái</th>
+              <th>Views</th>
+              <th>Ngày</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${articles.map(article => `
+              <tr>
+                <td class="admin-table-title">
+                  ${escapeHTML(article.title)}
+                </td>
+
+                <td>
+                  ${escapeHTML(
+                    getCategoryName(
+                      article.categoryId
+                    )
+                  )}
+                </td>
+
+                <td>
+                  ${statusBadge(article.status)}
+                </td>
+
+                <td>
+                  ${formatNumber(
+                    article.views ??
+                    article.viewCount
+                  )}
+                </td>
+
+                <td class="admin-table-muted">
+                  ${formatDate(
+                    article.publishedAt ||
+                    article.createdAt
+                  )}
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function renderDashboardLogs(logs) {
+    const box = $("#dashboardLogs");
+
+    if (!logs.length) {
+      box.innerHTML = `
+        <div class="admin-empty">
+          Chưa có nhật ký.
+        </div>
+      `;
+      return;
+    }
+
+    box.innerHTML = `
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Admin</th>
+              <th>Hành động</th>
+              <th>Đối tượng</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${logs.map(log => `
+              <tr>
+                <td>${formatDate(log.createdAt || log.time)}</td>
+
+                <td>
+                  ${escapeHTML(
+                    log.kaisoulId ||
+                    log.adminId ||
+                    log.actor ||
+                    "—"
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHTML(
+                    log.action ||
+                    "—"
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHTML(
+                    log.target ||
+                    log.entity ||
+                    "—"
+                  )}
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  /* =========================
+     ARTICLES
+  ========================= */
+
+  async function loadArticles() {
+    const body = $("#articlesTableBody");
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7">
+          <div class="admin-loading">Đang tải...</div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const params = new URLSearchParams();
+
+      const search = $("#articleSearch").value.trim();
+      const status = $("#articleStatusFilter").value;
+      const category = $("#articleCategoryFilter").value;
+
+      if (search) params.set("search", search);
+      if (status) params.set("status", status);
+      if (category) params.set("categoryId", category);
+
+      const query =
+        params.toString()
+          ? `?${params.toString()}`
+          : "";
+
+      const data =
+        await apiRequest(`/articles${query}`);
+
+      state.articles =
+        Array.isArray(data)
+          ? data
+          : data?.articles || [];
+
+      renderArticlesTable();
+
+    } catch (error) {
+      console.error(error);
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="7">
+            <div class="admin-empty">
+              ${escapeHTML(error.message)}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  function renderArticlesTable() {
+    const body = $("#articlesTableBody");
+
+    if (!state.articles.length) {
+      body.innerHTML = `
+        <tr>
+          <td colspan="7">
+            <div class="admin-empty">
+              Không có bài viết phù hợp.
+            </div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    body.innerHTML =
+      state.articles.map(article => `
+        <tr>
+
+          <td>
+            <div class="admin-table-title">
+              ${escapeHTML(article.title)}
+            </div>
+
+            ${
+              article.slug
+                ? `<div class="admin-table-muted">
+                    /${escapeHTML(article.slug)}
+                   </div>`
+                : ""
+            }
+          </td>
+
+          <td>
+            ${escapeHTML(
+              getCategoryName(article.categoryId)
+            )}
+          </td>
+
+          <td>
+            ${statusBadge(article.status)}
+          </td>
+
+          <td>
+            ${formatNumber(
+              article.views ??
+              article.viewCount
+            )}
+          </td>
+
+          <td>
+            ${formatNumber(
+              article.likes ??
+              article.likeCount
+            )}
+          </td>
+
+          <td class="admin-table-muted">
+            ${formatDate(
+              article.publishedAt ||
+              article.updatedAt ||
+              article.createdAt
+            )}
+          </td>
+
+          <td>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;">
+
+              <button
+                class="admin-mini-btn"
+                data-edit-article="${escapeHTML(article.id)}"
+              >
+                Sửa
+              </button>
+
+              <button
+                class="admin-mini-btn danger"
+                data-delete-article="${escapeHTML(article.id)}"
+              >
+                Xóa
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+      `).join("");
+  }
+
+  function statusBadge(status) {
+    const value = String(status || "").toLowerCase();
+
+    if (value === "published") {
+      return `<span class="admin-badge green">Đã xuất bản</span>`;
+    }
+
+    if (value === "hidden") {
+      return `<span class="admin-badge red">Ẩn</span>`;
+    }
+
+    return `<span class="admin-badge orange">Bản nháp</span>`;
+  }
+
+  async function openArticleModal(id = null) {
+    resetArticleForm();
+
+    if (!id) {
+      $("#articleModalTitle").textContent =
+        "Thêm bài viết";
+
+      openModal("articleModal");
+      return;
+    }
+
+    try {
+      const data =
+        await apiRequest(
+          `/articles/${encodeURIComponent(id)}`
+        );
+
+      const article =
+        data?.article ||
+        data;
+
+      fillArticleForm(article);
+
+      $("#articleModalTitle").textContent =
+        "Chỉnh sửa bài viết";
+
+      openModal("articleModal");
+
+    } catch (error) {
+      globalAlert(error.message);
+    }
+  }
+
+  function resetArticleForm() {
+    $("#articleForm").reset();
+
+    $("#articleId").value = "";
+
+    $("#articleStatus").value = "draft";
+
+    $("#articleFormAlert").classList.remove("show");
+
+    setDefaultPublishedTime();
+  }
+
+  function setDefaultPublishedTime() {
+    const input = $("#articlePublishedAt");
+
+    if (!input) return;
+
+    const now = new Date();
+
+    now.setMinutes(
+      now.getMinutes() -
+      now.getTimezoneOffset()
+    );
+
+    input.value =
+      now.toISOString()
+        .slice(0, 16);
+  }
+
+  function fillArticleForm(article) {
+    $("#articleId").value =
+      article.id || "";
+
+    $("#articleTitle").value =
+      article.title || "";
+
+    $("#articleCover").value =
+      article.cover || "";
+
+    $("#articleAuthor").value =
+      article.author || "";
+
+    $("#articleSource").value =
+      article.source || "";
+
+    $("#articleTags").value =
+      Array.isArray(article.tags)
+        ? article.tags.join(", ")
+        : article.tags || "";
+
+    $("#articleContent").value =
+      article.content || "";
+
+    $("#articleStatus").value =
+      article.status || "draft";
+
+    $("#articleFeatured").checked =
+      article.isFeatured === true;
+
+    $("#articleBreaking").checked =
+      article.isBreaking === true;
+
+    if (article.categoryId) {
+      $("#articleCategory").value =
+        article.categoryId;
+    }
+
+    if (article.publishedAt) {
+      const date =
+        new Date(article.publishedAt);
+
+      if (!Number.isNaN(date.getTime())) {
+        date.setMinutes(
+          date.getMinutes() -
+          date.getTimezoneOffset()
+        );
+
+        $("#articlePublishedAt").value =
+          date.toISOString()
+            .slice(0, 16);
+      }
+    }
+  }
+
+  async function saveArticle(event) {
+    event.preventDefault();
+
+    const alertBox =
+      $("#articleFormAlert");
+
+    showAlert(alertBox, "");
+
+    const id =
+      $("#articleId").value.trim();
+
+    const title =
+      $("#articleTitle").value.trim();
+
+    const content =
+      $("#articleContent").value.trim();
+
+    const categoryId =
+      $("#articleCategory").value;
+
+    if (!title || !content || !categoryId) {
+      showAlert(
+        alertBox,
+        "Vui lòng nhập đầy đủ tiêu đề, danh mục và nội dung."
+      );
+      return;
+    }
+
+    const payload = {
+      title,
+
+      cover:
+        $("#articleCover").value.trim(),
+
+      content,
+
+      categoryId,
+
+      author:
+        $("#articleAuthor").value.trim(),
+
+      source:
+        $("#articleSource").value.trim(),
+
+      tags:
+        $("#articleTags").value
+          .split(",")
+          .map(item => item.trim())
+          .filter(Boolean),
+
+      status:
+        $("#articleStatus").value,
+
+      isFeatured:
+        $("#articleFeatured").checked,
+
+      isBreaking:
+        $("#articleBreaking").checked,
+
+      publishedAt:
+        $("#articlePublishedAt").value
+          ? new Date(
+              $("#articlePublishedAt").value
+            ).toISOString()
+          : null
+    };
+
+    const button =
+      $("#saveArticleBtn");
+
+    button.disabled = true;
+    button.textContent = "Đang lưu...";
+
+    try {
+      if (id) {
+        await apiRequest(
+          `/articles/${encodeURIComponent(id)}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify(payload)
+          }
+        );
+
+      } else {
+        await apiRequest(
+          "/articles",
+          {
+            method: "POST",
+            body: JSON.stringify(payload)
+          }
+        );
+      }
+
+      closeModal("articleModal");
+
+      globalAlert(
+        id
+          ? "Đã cập nhật bài viết."
+          : "Đã tạo bài viết."
+      );
+
+      await loadArticles();
+      await loadDashboard();
+
+    } catch (error) {
+      console.error(error);
+      showAlert(
+        alertBox,
+        error.message
+      );
+
+    } finally {
+      button.disabled = false;
+      button.textContent = "Lưu bài viết";
+    }
+  }
+
+  async function deleteArticle(id) {
+    if (!id) return;
+
+    const confirmed =
+      window.confirm(
+        "Bạn chắc chắn muốn xóa bài viết này?\n\nThao tác này có thể không hoàn tác được."
+      );
+
+    if (!confirmed) return;
+
+    try {
+      await apiRequest(
+        `/articles/${encodeURIComponent(id)}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+      globalAlert("Đã xóa bài viết.");
+
+      await loadArticles();
+      await loadDashboard();
+
+    } catch (error) {
+      globalAlert(error.message);
+    }
+  }
+
+  /* =========================
+     CATEGORIES
+  ========================= */
+
+  async function loadCategories() {
+    try {
+      const data =
+        await apiRequest("/categories");
+
+      state.categories =
+        Array.isArray(data)
+          ? data
+          : data?.categories || [];
+
+      renderCategoriesTable();
+      populateCategorySelects();
+
+    } catch (error) {
+      console.error(error);
+      globalAlert(error.message);
+    }
+  }
+
+  function populateCategorySelects() {
+    const selects = [
+      $("#articleCategory"),
+      $("#articleCategoryFilter"),
+      $("#settingDefaultCategory")
+    ];
+
+    selects.forEach(select => {
+      if (!select) return;
+
+      const current = select.value;
+
+      const isFilter =
+        select.id === "articleCategoryFilter";
+
+      select.innerHTML =
+        isFilter
+          ? `<option value="">Tất cả danh mục</option>`
+          : `<option value="">Chọn danh mục</option>`;
+
+      state.categories.forEach(category => {
+        const option =
+          document.createElement("option");
+
+        option.value = category.id;
+        option.textContent = category.name;
+
+        select.appendChild(option);
+      });
+
+      if (current) {
+        select.value = current;
+      }
+    });
+  }
+
+  function renderCategoriesTable() {
+    const body =
+      $("#categoriesTableBody");
+
+    if (!state.categories.length) {
+      body.innerHTML = `
+        <tr>
+          <td colspan="4">
+            <div class="admin-empty">
+              Chưa có danh mục.
+            </div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    body.innerHTML =
+      state.categories.map(category => `
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHTML(category.name)}
+            </strong>
+          </td>
+
+          <td>
+            ${escapeHTML(category.slug || "—")}
+          </td>
+
+          <td>
+            ${formatNumber(
+              category.articleCount ??
+              category.count ??
+              0
+            )}
+          </td>
+
+          <td>
+            <div style="display:flex;gap:5px;">
+
+              <button
+                class="admin-mini-btn"
+                data-edit-category="${escapeHTML(category.id)}"
+              >
+                Sửa
+              </button>
+
+              <button
+                class="admin-mini-btn danger"
+                data-delete-category="${escapeHTML(category.id)}"
+              >
+                Xóa
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+      `).join("");
+  }
+
+  function openCategoryModal(id = null) {
+    $("#categoryForm").reset();
+
+    $("#categoryId").value = "";
+
+    $("#categoryFormAlert").classList.remove("show");
+
+    $("#categoryModalTitle").textContent =
+      id
+        ? "Chỉnh sửa danh mục"
+        : "Thêm danh mục";
+
+    if (id) {
+      const category =
+        state.categories.find(
+          item =>
+            String(item.id) === String(id)
+        );
+
+      if (!category) return;
+
+      $("#categoryId").value =
+        category.id;
+
+      $("#categoryName").value =
+        category.name || "";
+
+      $("#categorySlug").value =
+        category.slug || "";
+    }
+
+    openModal("categoryModal");
+  }
+
+  async function saveCategory(event) {
+    event.preventDefault();
+
+    const alertBox =
+      $("#categoryFormAlert");
+
+    showAlert(alertBox, "");
+
+    const id =
+      $("#categoryId").value.trim();
+
+    const name =
+      $("#categoryName").value.trim();
+
+    const slug =
+      $("#categorySlug").value.trim();
+
+    if (!name) {
+      showAlert(
+        alertBox,
+        "Tên danh mục không được để trống."
+      );
+      return;
+    }
+
+    try {
+      if (id) {
+        await apiRequest(
+          `/categories/${encodeURIComponent(id)}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify({
+              name,
+              slug
+            })
+          }
+        );
+      } else {
+        await apiRequest(
+          "/categories",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              name,
+              slug
+            })
+          }
+        );
+      }
+
+      closeModal("categoryModal");
+
+      await loadCategories();
+
+      globalAlert(
+        id
+          ? "Đã cập nhật danh mục."
+          : "Đã tạo danh mục."
+      );
+
+    } catch (error) {
+      showAlert(
+        alertBox,
+        error.message
+      );
+    }
+  }
+
+  async function deleteCategory(id) {
+    const confirmed =
+      window.confirm(
+        "Xóa danh mục này?"
+      );
+
+    if (!confirmed) return;
+
+    try {
+      await apiRequest(
+        `/categories/${encodeURIComponent(id)}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+      await loadCategories();
+
+      globalAlert(
+        "Đã xóa danh mục."
+      );
+
+    } catch (error) {
+      globalAlert(error.message);
+    }
+  }
+
+  /* =========================
+     COMMENTS
+  ========================= */
+
+  async function loadComments() {
+    const body =
+      $("#commentsTableBody");
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="6">
+          <div class="admin-loading">
+            Đang tải...
+          </div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const params =
+        new URLSearchParams();
+
+      const search =
+        $("#commentSearch").value.trim();
+
+      const status =
+        $("#commentStatusFilter").value;
+
+      if (search) {
+        params.set("search", search);
+      }
+
+      if (status) {
+        params.set("status", status);
+      }
+
+      const query =
+        params.toString()
+          ? `?${params.toString()}`
+          : "";
+
+      const data =
+        await apiRequest(
+          `/admin/comments${query}`
+        );
+
+      state.comments =
+        Array.isArray(data)
+          ? data
+          : data?.comments || [];
+
+      renderCommentsTable();
+
+    } catch (error) {
+      console.error(error);
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="6">
+            <div class="admin-empty">
+              ${escapeHTML(error.message)}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  function renderCommentsTable() {
+    const body =
+      $("#commentsTableBody");
+
+    if (!state.comments.length) {
+      body.innerHTML = `
+        <tr>
+          <td colspan="6">
+            <div class="admin-empty">
+              Không có bình luận.
+            </div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    body.innerHTML =
+      state.comments.map(comment => `
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHTML(
+                comment.kaisoulId ||
+                comment.userId ||
+                "Ẩn danh"
+              )}
+            </strong>
+          </td>
+
+          <td>
+            <div style="max-width:330px;line-height:1.45;">
+              ${escapeHTML(
+                comment.content ||
+                comment.text ||
+                ""
+              )}
+            </div>
+          </td>
+
+          <td>
+            ${escapeHTML(
+              comment.articleTitle ||
+              comment.articleId ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            ${comment.status === "hidden"
+              ? `<span class="admin-badge red">Đã ẩn</span>`
+              : `<span class="admin-badge green">Hiển thị</span>`
+            }
+          </td>
+
+          <td class="admin-table-muted">
+            ${formatDate(
+              comment.createdAt
+            )}
+          </td>
+
+          <td>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;">
+
+              <button
+                class="admin-mini-btn"
+                data-toggle-comment="${escapeHTML(comment.id)}"
+                data-comment-status="${escapeHTML(comment.status || "visible")}"
+              >
+                ${
+                  comment.status === "hidden"
+                    ? "Hiện"
+                    : "Ẩn"
+                }
+              </button>
+
+              <button
+                class="admin-mini-btn danger"
+                data-delete-comment="${escapeHTML(comment.id)}"
+              >
+                Xóa
+              </button>
+
+            </div>
+          </td>
+
+        </tr>
+      `).join("");
+  }
+
+  async function toggleComment(id, currentStatus) {
+    const newStatus =
+      currentStatus === "hidden"
+        ? "visible"
+        : "hidden";
+
+    try {
+      await apiRequest(
+        `/admin/comments/${encodeURIComponent(id)}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            status: newStatus
+          })
+        }
+      );
+
+      await loadComments();
+
+    } catch (error) {
+      globalAlert(error.message);
+    }
+  }
+
+  async function deleteComment(id) {
+    const confirmed =
+      window.confirm(
+        "Xóa bình luận này?"
+      );
+
+    if (!confirmed) return;
+
+    try {
+      await apiRequest(
+        `/admin/comments/${encodeURIComponent(id)}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+      await loadComments();
+
+    } catch (error) {
+      globalAlert(error.message);
+    }
+  }
+
+  /* =========================
+     USERS
+  ========================= */
+
+  async function loadUsers() {
+    const body =
+      $("#usersTableBody");
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="5">
+          <div class="admin-loading">
+            Đang tải...
+          </div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const search =
+        $("#userSearch").value.trim();
+
+      const query =
+        search
+          ? `?search=${encodeURIComponent(search)}`
+          : "";
+
+      const data =
+        await apiRequest(
+          `/admin/users${query}`
+        );
+
+      state.users =
+        Array.isArray(data)
+          ? data
+          : data?.users || [];
+
+      renderUsersTable();
+
+    } catch (error) {
+      console.error(error);
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="5">
+            <div class="admin-empty">
+              ${escapeHTML(error.message)}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  function renderUsersTable() {
+    const body =
+      $("#usersTableBody");
+
+    if (!state.users.length) {
+      body.innerHTML = `
+        <tr>
+          <td colspan="5">
+            <div class="admin-empty">
+              Chưa có người dùng.
+            </div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    body.innerHTML =
+      state.users.map(user => `
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHTML(
+                user.name ||
+                user.displayName ||
+                user.kaisoulId ||
+                "—"
+              )}
+            </strong>
+          </td>
+
+          <td>
+            ${escapeHTML(
+              user.kaisoulId ||
+              user.username ||
+              user.id ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            ${
+              isAdminUser(user)
+                ? `<span class="admin-badge blue">Admin</span>`
+                : `<span class="admin-badge">User</span>`
+            }
+          </td>
+
+          <td class="admin-table-muted">
+            ${formatDate(
+              user.createdAt ||
+              user.joinedAt
+            )}
+          </td>
+
+          <td>
+            ${
+              user.status === "disabled"
+                ? `<span class="admin-badge red">Đã khóa</span>`
+                : `<span class="admin-badge green">Hoạt động</span>`
+            }
+          </td>
+
+        </tr>
+      `).join("");
+  }
+
+  /* =========================
+     SETTINGS
+  ========================= */
+
+  async function loadSettings() {
+    try {
+      const data =
+        await apiRequest("/admin/settings");
+
+      state.settings =
+        data?.settings ||
+        data ||
+        {};
+
+      $("#settingSiteName").value =
+        state.settings.siteName ||
+        "KAISOUL NEWS";
+
+      $("#settingSiteDescription").value =
+        state.settings.siteDescription ||
+        "";
+
+      $("#settingContactEmail").value =
+        state.settings.contactEmail ||
+        "";
+
+      $("#settingShowBreaking").checked =
+        state.settings.showBreaking !== false;
+
+      $("#settingShowFeatured").checked =
+        state.settings.showFeatured !== false;
+
+      $("#settingAllowComments").checked =
+        state.settings.allowComments !== false;
+
+      $("#settingAllowGuests").checked =
+        state.settings.allowGuests !== false;
+
+      $("#settingAnalyticsEnabled").checked =
+        state.settings.analyticsEnabled !== false;
+
+      $("#settingUniqueViews").checked =
+        state.settings.uniqueViews !== false;
+
+      populateCategorySelects();
+
+      if (state.settings.defaultCategoryId) {
+        $("#settingDefaultCategory").value =
+          state.settings.defaultCategoryId;
+      }
+
+    } catch (error) {
+      console.error(error);
+      globalAlert(error.message);
+    }
+  }
+
+  async function saveSettings() {
+    const payload = {
+      siteName:
+        $("#settingSiteName").value.trim(),
+
+      siteDescription:
+        $("#settingSiteDescription").value.trim(),
+
+      contactEmail:
+        $("#settingContactEmail").value.trim(),
+
+      defaultCategoryId:
+        $("#settingDefaultCategory").value || null,
+
+      showBreaking:
+        $("#settingShowBreaking").checked,
+
+      showFeatured:
+        $("#settingShowFeatured").checked,
+
+      allowComments:
+        $("#settingAllowComments").checked,
+
+      allowGuests:
+        $("#settingAllowGuests").checked,
+
+      analyticsEnabled:
+        $("#settingAnalyticsEnabled").checked,
+
+      uniqueViews:
+        $("#settingUniqueViews").checked
+    };
+
+    const button =
+      $("#saveSettingsBtn");
+
+    button.disabled = true;
+    button.textContent = "Đang lưu...";
+
+    try {
+      await apiRequest(
+        "/admin/settings",
+        {
+          method: "PATCH",
+          body: JSON.stringify(payload)
+        }
+      );
+
+      globalAlert(
+        "Đã lưu cài đặt."
+      );
+
+    } catch (error) {
+      globalAlert(error.message);
+
+    } finally {
+      button.disabled = false;
+      button.textContent = "Lưu cài đặt";
+    }
+  }
+
+  /* =========================
+     LOGS
+  ========================= */
+
+  async function loadLogs() {
+    const body =
+      $("#logsTableBody");
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="5">
+          <div class="admin-loading">
+            Đang tải...
+          </div>
+        </td>
+      </tr>
+    `;
+
+    try {
+      const data =
+        await apiRequest("/admin/logs");
+
+      state.logs =
+        Array.isArray(data)
+          ? data
+          : data?.logs || [];
+
+      renderLogs();
+
+    } catch (error) {
+      console.error(error);
+
+      body.innerHTML = `
+        <tr>
+          <td colspan="5">
+            <div class="admin-empty">
+              ${escapeHTML(error.message)}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  function renderLogs() {
+    const body =
+      $("#logsTableBody");
+
+    if (!state.logs.length) {
+      body.innerHTML = `
+        <tr>
+          <td colspan="5">
+            <div class="admin-empty">
+              Chưa có nhật ký.
+            </div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    body.innerHTML =
+      state.logs.map(log => `
+        <tr>
+
+          <td>
+            ${formatDate(
+              log.createdAt ||
+              log.time
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              log.kaisoulId ||
+              log.adminId ||
+              log.actor ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            <span class="admin-badge blue">
+              ${escapeHTML(
+                log.action ||
+                "—"
+              )}
+            </span>
+          </td>
+
+          <td>
+            ${escapeHTML(
+              log.target ||
+              log.entity ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              log.details ||
+              log.reason ||
+              "—"
+            )}
+          </td>
+
+        </tr>
+      `).join("");
+  }
+
+  /* =========================
+     MODALS
+  ========================= */
+
+  function openModal(id) {
+    const modal = document.getElementById(id);
+
+    if (!modal) return;
+
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+
+    if (!modal) return;
+
+    modal.classList.remove("open");
+
+    if (!document.querySelector(".admin-modal.open")) {
+      document.body.style.overflow = "";
+    }
+  }
+
+  /* =========================
+     EVENT DELEGATION
+  ========================= */
+
+  document.addEventListener("click", event => {
+
+    const sectionButton =
+      event.target.closest(
+        "[data-section]"
+      );
+
+    if (sectionButton) {
+      openSection(
+        sectionButton.dataset.section
+      );
+      return;
+    }
+
+    const goButton =
+      event.target.closest(
+        "[data-go]"
+      );
+
+    if (goButton) {
+      openSection(
+        goButton.dataset.go
+      );
+      return;
+    }
+
+    const editArticle =
+      event.target.closest(
+        "[data-edit-article]"
+      );
+
+    if (editArticle) {
+      openArticleModal(
+        editArticle.dataset.editArticle
+      );
+      return;
+    }
+
+    const deleteArticleButton =
+      event.target.closest(
+        "[data-delete-article]"
+      );
+
+    if (deleteArticleButton) {
+      deleteArticle(
+        deleteArticleButton.dataset.deleteArticle
+      );
+      return;
+    }
+
+    const editCategory =
+      event.target.closest(
+        "[data-edit-category]"
+      );
+
+    if (editCategory) {
+      openCategoryModal(
+        editCategory.dataset.editCategory
+      );
+      return;
+    }
+
+    const deleteCategoryButton =
+      event.target.closest(
+        "[data-delete-category]"
+      );
+
+    if (deleteCategoryButton) {
+      deleteCategory(
+        deleteCategoryButton.dataset.deleteCategory
+      );
+      return;
+    }
+
+    const toggleCommentButton =
+      event.target.closest(
+        "[data-toggle-comment]"
+      );
+
+    if (toggleCommentButton) {
+      toggleComment(
+        toggleCommentButton.dataset.toggleComment,
+        toggleCommentButton.dataset.commentStatus
+      );
+      return;
+    }
+
+    const deleteCommentButton =
+      event.target.closest(
+        "[data-delete-comment]"
+      );
+
+    if (deleteCommentButton) {
+      deleteComment(
+        deleteCommentButton.dataset.deleteComment
+      );
+      return;
+    }
+
+    const closeButton =
+      event.target.closest(
+        "[data-close-modal]"
+      );
+
+    if (closeButton) {
+      closeModal(
+        closeButton.dataset.closeModal
+      );
+      return;
+    }
+  });
+
+  /* =========================
+     EVENT LISTENERS
+  ========================= */
+
+  $("#adminMobileMenu")
+    .addEventListener(
+      "click",
+      openMobileSidebar
+    );
+
+  $("#adminOverlay")
+    .addEventListener(
+      "click",
+      closeMobileSidebar
+    );
+
+  $("#adminLogoutBtn")
+    .addEventListener(
+      "click",
+      () => logout(true)
+    );
+
+  $("#refreshDashboardBtn")
+    .addEventListener(
+      "click",
+      loadDashboard
+    );
+
+  $("#dashboardNewArticleBtn")
+    .addEventListener(
+      "click",
+      () => openArticleModal()
+    );
+
+  $("#newArticleBtn")
+    .addEventListener(
+      "click",
+      () => openArticleModal()
+    );
+
+  $("#refreshArticlesBtn")
+    .addEventListener(
+      "click",
+      loadArticles
+    );
+
+  $("#newCategoryBtn")
+    .addEventListener(
+      "click",
+      () => openCategoryModal()
+    );
+
+  $("#refreshCommentsBtn")
+    .addEventListener(
+      "click",
+      loadComments
+    );
+
+  $("#refreshUsersBtn")
+    .addEventListener(
+      "click",
+      loadUsers
+    );
+
+  $("#refreshLogsBtn")
+    .addEventListener(
+      "click",
+      loadLogs
+    );
+
+  $("#saveSettingsBtn")
+    .addEventListener(
+      "click",
+      saveSettings
+    );
+
+  $("#articleForm")
+    .addEventListener(
+      "submit",
+      saveArticle
+    );
+
+  $("#categoryForm")
+    .addEventListener(
+      "submit",
+      saveCategory
+    );
+
+  $("#articleStatusFilter")
+    .addEventListener(
+      "change",
+      loadArticles
+    );
+
+  $("#articleCategoryFilter")
+    .addEventListener(
+      "change",
+      loadArticles
+    );
+
+  $("#commentStatusFilter")
+    .addEventListener(
+      "change",
+      loadComments
+    );
+
+  let articleSearchTimer;
+
+  $("#articleSearch")
+    .addEventListener(
+      "input",
+      () => {
+        clearTimeout(
+          articleSearchTimer
+        );
+
+        articleSearchTimer =
+          setTimeout(
+            loadArticles,
+            350
+          );
+      }
+    );
+
+  let commentSearchTimer;
+
+  $("#commentSearch")
+    .addEventListener(
+      "input",
+      () => {
+        clearTimeout(
+          commentSearchTimer
+        );
+
+        commentSearchTimer =
+          setTimeout(
+            loadComments,
+            350
+          );
+      }
+    );
+
+  let userSearchTimer;
+
+  $("#userSearch")
+    .addEventListener(
+      "input",
+      () => {
+        clearTimeout(
+          userSearchTimer
+        );
+
+        userSearchTimer =
+          setTimeout(
+            loadUsers,
+            350
+          );
+      }
+    );
+
+  /*
+   * Tự tạo slug cơ bản.
+   */
+  $("#categoryName")
+    .addEventListener(
+      "input",
+      () => {
+        const slugInput =
+          $("#categorySlug");
+
+        if (
+          $("#categoryId").value
+        ) {
+          return;
+        }
+
+        slugInput.value =
+          slugify(
+            $("#categoryName").value
+          );
+      }
+    );
+
+  /* =========================
+     KEYBOARD
+  ========================= */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+      if (event.key !== "Escape") {
+        return;
+      }
+
+      $$(".admin-modal.open")
+        .forEach(modal => {
+          closeModal(modal.id);
+        });
+
+      closeMobileSidebar();
+    }
+  );
+
+  /* =========================
+     UTILITY
+  ========================= */
+
+  function slugify(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  /* =========================
+     INIT
+  ========================= */
+
+  async function init() {
+    const allowed =
+      await checkAdmin();
+
+    if (!allowed) {
+      return;
+    }
+
+    await loadCategories();
+    await loadDashboard();
+  }
+
+  init();
+
+  window.KAISOUL_NEWS_ADMIN = {
+    reloadDashboard: loadDashboard,
+    reloadArticles: loadArticles,
+    reloadCategories: loadCategories,
+    reloadComments: loadComments,
+    reloadUsers: loadUsers,
+    reloadLogs: loadLogs,
+    openSection
+  };
+
+})();
+</script></body>
+  </html>
