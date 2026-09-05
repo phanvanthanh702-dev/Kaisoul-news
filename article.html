@@ -1,0 +1,2478 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="description"
+    content="Đọc tin tức mới nhất trên KAISOUL NEWS."
+  >
+
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Đang tải bài viết — KAISOUL NEWS</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* =====================================================
+       ARTICLE PAGE
+    ===================================================== */
+
+    .article-page {
+      width: min(900px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+
+    .article-breadcrumb {
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .article-breadcrumb a {
+      font-weight: 700;
+    }
+
+    .article-category {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .article-title {
+      margin: 0;
+      font-size: clamp(30px, 8vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -1px;
+    }
+
+    .article-description {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .article-meta {
+      margin-top: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .article-cover {
+      width: 100%;
+      max-height: 560px;
+      margin: 24px 0;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      background: var(--surface-2);
+    }
+
+    .article-content {
+      font-size: 17px;
+      line-height: 1.85;
+    }
+
+    .article-content p {
+      margin: 0 0 20px;
+    }
+
+    .article-content h2,
+    .article-content h3 {
+      margin: 30px 0 12px;
+      line-height: 1.25;
+    }
+
+    .article-content img {
+      width: 100%;
+      height: auto;
+      margin: 22px 0;
+      border-radius: var(--radius-md);
+    }
+
+    .article-content a {
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+    .article-content blockquote {
+      margin: 24px 0;
+      padding: 14px 18px;
+      border-left: 4px solid var(--text);
+      background: var(--surface-2);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .article-stats {
+      margin: 30px 0 0;
+      padding: 14px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .article-actions {
+      margin: 18px 0 0;
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .article-action {
+      min-height: 42px;
+      padding: 0 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background: var(--surface);
+      color: var(--text);
+
+      font-weight: 750;
+    }
+
+    .article-action:hover {
+      background: var(--surface-2);
+    }
+
+    .article-action.active {
+      background: var(--primary);
+      color: var(--surface);
+      border-color: var(--primary);
+    }
+
+    .article-source {
+      margin-top: 20px;
+      padding: 14px;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+
+      background: var(--surface);
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+    .article-source strong {
+      color: var(--text);
+    }
+
+    .comments-section {
+      margin-top: 45px;
+    }
+
+    .comments-section h2 {
+      margin: 0 0 15px;
+      font-size: 23px;
+    }
+
+    .comment-form {
+      padding: 14px;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+
+      background: var(--surface);
+    }
+
+    .comment-form textarea {
+      width: 100%;
+      min-height: 100px;
+      resize: vertical;
+
+      padding: 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      outline: none;
+
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .comment-form textarea:focus {
+      border-color: var(--text);
+    }
+
+    .comment-submit {
+      margin-top: 9px;
+      min-height: 42px;
+      padding: 0 16px;
+
+      border: 0;
+      border-radius: 10px;
+
+      background: var(--primary);
+      color: var(--surface);
+
+      font-weight: 800;
+    }
+
+    .comments-list {
+      margin-top: 15px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .comment {
+      padding: 14px;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+
+      background: var(--surface);
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .comment-user {
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .comment-time {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .comment-content {
+      margin-top: 8px;
+      font-size: 14px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .related-section {
+      margin-top: 50px;
+    }
+
+    .related-section h2 {
+      margin: 0 0 15px;
+      font-size: 23px;
+    }
+
+    .related-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .article-loading {
+      padding: 80px 15px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .article-error {
+      padding: 60px 15px;
+      text-align: center;
+    }
+
+    .article-error h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .article-error p {
+      margin: 0 0 18px;
+      color: var(--muted);
+    }
+
+    @media (min-width: 700px) {
+      .article-page {
+        width: min(920px, calc(100% - 48px));
+        padding-top: 45px;
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="site-header">
+
+    <div class="header-inner">
+
+      <a
+        href="index.html"
+        class="icon-button"
+        aria-label="Quay lại trang chủ"
+      >
+        ←
+      </a>
+
+      <a href="index.html" class="brand">
+        <span class="brand-main">KAISOUL</span>
+        <span class="brand-news">NEWS</span>
+      </a>
+
+      <div class="header-actions">
+
+        <button
+          class="icon-button"
+          id="shareTopButton"
+          type="button"
+          aria-label="Chia sẻ"
+        >
+          ↗
+        </button>
+
+        <button
+          class="account-button"
+          id="accountButton"
+          type="button"
+        >
+          <span id="accountAvatar">👤</span>
+          <span id="accountText">Đăng nhập</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       ARTICLE
+  ====================================================== -->
+
+  <main class="article-page">
+
+    <div
+      id="articleLoading"
+      class="article-loading"
+    >
+      Đang tải bài viết...
+    </div>
+
+
+    <article
+      id="articleContainer"
+      hidden
+    >
+
+      <div class="article-breadcrumb">
+
+        <a href="index.html">
+          KAISOUL NEWS
+        </a>
+
+        <span> / </span>
+
+        <span id="breadcrumbCategory">
+          Tin tức
+        </span>
+
+      </div>
+
+
+      <div
+        class="article-category"
+        id="articleCategory"
+      >
+        Tin tức
+      </div>
+
+
+      <h1
+        class="article-title"
+        id="articleTitle"
+      >
+        Đang tải...
+      </h1>
+
+
+      <p
+        class="article-description"
+        id="articleDescription"
+        hidden
+      ></p>
+
+
+      <div class="article-meta">
+
+        <span id="articleAuthor">
+          KAISOUL NEWS
+        </span>
+
+        <span>•</span>
+
+        <span id="articleDate">
+          —
+        </span>
+
+        <span>•</span>
+
+        <span id="articleUpdated">
+          —
+        </span>
+
+      </div>
+
+
+      <img
+        id="articleCover"
+        class="article-cover"
+        alt=""
+        hidden
+      >
+
+
+      <div
+        class="article-content"
+        id="articleContent"
+      ></div>
+
+
+      <div class="article-stats">
+
+        <span>
+          👁
+          <strong id="viewCount">0</strong>
+          lượt xem
+        </span>
+
+        <span>
+          ♥
+          <strong id="likeCount">0</strong>
+          lượt thích
+        </span>
+
+        <span>
+          💬
+          <strong id="commentCount">0</strong>
+          bình luận
+        </span>
+
+      </div>
+
+
+      <div class="article-actions">
+
+        <button
+          class="article-action"
+          id="likeButton"
+          type="button"
+        >
+          ♡ Thích
+        </button>
+
+        <button
+          class="article-action"
+          id="bookmarkButton"
+          type="button"
+        >
+          🔖 Lưu
+        </button>
+
+        <button
+          class="article-action"
+          id="shareButton"
+          type="button"
+        >
+          ↗ Chia sẻ
+        </button>
+
+        <button
+          class="article-action"
+          id="copyLinkButton"
+          type="button"
+        >
+          🔗 Sao chép link
+        </button>
+
+      </div>
+
+
+      <div
+        class="article-source"
+        id="articleSource"
+        hidden
+      ></div>
+
+
+      <!-- =================================================
+           COMMENTS
+      ================================================== -->
+
+      <section
+        class="comments-section"
+        id="commentsSection"
+      >
+
+        <h2>
+          Bình luận
+        </h2>
+
+
+        <form
+          class="comment-form"
+          id="commentForm"
+        >
+
+          <textarea
+            id="commentInput"
+            maxlength="2000"
+            placeholder="Viết bình luận..."
+          ></textarea>
+
+          <button
+            class="comment-submit"
+            type="submit"
+          >
+            Gửi bình luận
+          </button>
+
+        </form>
+
+
+        <div
+          class="comments-list"
+          id="commentsList"
+        >
+          <div class="empty-state">
+            Đang tải bình luận...
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           RELATED
+      ================================================== -->
+
+      <section class="related-section">
+
+        <h2>
+          Tin liên quan
+        </h2>
+
+        <div
+          class="related-grid"
+          id="relatedNews"
+        >
+          <div class="empty-state">
+            Đang tải...
+          </div>
+        </div>
+
+      </section>
+
+    </article>
+
+
+    <!-- ===================================================
+         ERROR
+    ==================================================== -->
+
+    <section
+      class="article-error"
+      id="articleError"
+      hidden
+    >
+
+      <h1>
+        Không tìm thấy bài viết
+      </h1>
+
+      <p id="articleErrorMessage">
+        Bài viết không tồn tại hoặc đã bị ẩn.
+      </p>
+
+      <a
+        href="index.html"
+        class="primary-button"
+        style="
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          width:auto;
+          padding:0 18px;
+        "
+      >
+        ← Về trang chủ
+      </a>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       LOGIN MODAL
+  ====================================================== -->
+
+  <div
+    class="modal"
+    id="loginModal"
+    hidden
+  >
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-card">
+
+      <button
+        class="modal-close"
+        id="closeLoginModal"
+        type="button"
+      >
+        ×
+      </button>
+
+      <div class="modal-icon">
+        🔐
+      </div>
+
+      <h2>
+        Đăng nhập KAISOUL ID
+      </h2>
+
+      <p>
+        Bạn cần đăng nhập bằng KAISOUL ID
+        để thích, bình luận hoặc lưu bài viết.
+      </p>
+
+      <button
+        class="primary-button"
+        id="loginKaisoulButton"
+        type="button"
+      >
+        Đăng nhập bằng KAISOUL ID
+      </button>
+
+      <button
+        class="secondary-button"
+        id="registerKaisoulButton"
+        type="button"
+      >
+        Đăng ký KAISOUL ID
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       ACCOUNT MODAL
+  ====================================================== -->
+
+  <div
+    class="modal"
+    id="accountModal"
+    hidden
+  >
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-card">
+
+      <button
+        class="modal-close"
+        id="closeAccountModal"
+        type="button"
+      >
+        ×
+      </button>
+
+      <div class="account-profile">
+
+        <div
+          class="large-avatar"
+          id="profileAvatar"
+        >
+          👤
+        </div>
+
+        <h2 id="profileName">
+          Người dùng
+        </h2>
+
+        <p id="profileKaisoulId">
+          KAISOUL ID
+        </p>
+
+      </div>
+
+      <div class="account-actions">
+
+        <button
+          class="account-action"
+          id="profileButton"
+          type="button"
+        >
+          👤 Hồ sơ KAISOUL ID
+        </button>
+
+        <button
+          class="account-action"
+          id="savedButton"
+          type="button"
+        >
+          🔖 Bài viết đã lưu
+        </button>
+
+        <button
+          class="account-action danger"
+          id="logoutButton"
+          type="button"
+        >
+          🚪 Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       TOAST
+  ====================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  >
+    <span id="toastMessage"></span>
+  </div>
+
+
+  <!-- =====================================================
+       SCRIPT
+  ====================================================== -->
+
+  <script src="app.js" defer></script>
+
+  <script>
+    "use strict";
+
+    /* =====================================================
+       ARTICLE PAGE LOGIC
+    ====================================================== */
+
+    const articlePageState = {
+      article: null,
+      slug: null,
+      id: null
+    };
+
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initArticlePage
+    );
+
+
+    async function initArticlePage() {
+
+      /*
+        app.js xử lý authentication,
+        theme và các chức năng dùng chung.
+      */
+
+      await waitForApp();
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      articlePageState.slug =
+        params.get("slug");
+
+      articlePageState.id =
+        params.get("id");
+
+
+      if (
+        !articlePageState.slug &&
+        !articlePageState.id
+      ) {
+
+        showArticleError(
+          "URL bài viết không hợp lệ."
+        );
+
+        return;
+      }
+
+
+      bindArticleEvents();
+
+      await loadArticle();
+    }
+
+
+    function waitForApp() {
+
+      return new Promise(
+        (resolve) => {
+
+          if (
+            window.KAISOUL_NEWS
+          ) {
+            resolve();
+            return;
+          }
+
+          setTimeout(
+            resolve,
+            100
+          );
+
+        }
+      );
+    }
+
+
+    /* =====================================================
+       EVENTS
+    ====================================================== */
+
+    function bindArticleEvents() {
+
+      document
+        .getElementById(
+          "likeButton"
+        )
+        ?.addEventListener(
+          "click",
+          handleLike
+        );
+
+
+      document
+        .getElementById(
+          "bookmarkButton"
+        )
+        ?.addEventListener(
+          "click",
+          handleBookmark
+        );
+
+
+      document
+        .getElementById(
+          "shareButton"
+        )
+        ?.addEventListener(
+          "click",
+          shareArticle
+        );
+
+
+      document
+        .getElementById(
+          "shareTopButton"
+        )
+        ?.addEventListener(
+          "click",
+          shareArticle
+        );
+
+
+      document
+        .getElementById(
+          "copyLinkButton"
+        )
+        ?.addEventListener(
+          "click",
+          copyArticleLink
+        );
+
+
+      document
+        .getElementById(
+          "commentForm"
+        )
+        ?.addEventListener(
+          "submit",
+          submitComment
+        );
+
+
+      document
+        .getElementById(
+          "loginKaisoulButton"
+        )
+        ?.addEventListener(
+          "click",
+          () => {
+
+            if (
+              window.KAISOUL_NEWS
+                ?.config
+                ?.KAISOUL_ID_URL
+            ) {
+
+              window.location.href =
+                window.KAISOUL_NEWS
+                  .config
+                  .KAISOUL_ID_URL;
+            }
+
+          }
+        );
+
+
+      document
+        .getElementById(
+          "registerKaisoulButton"
+        )
+        ?.addEventListener(
+          "click",
+          () => {
+
+            window.location.href =
+              "https://phanvanthanh702-dev.github.io/KAISOUL-ID/";
+
+          }
+        );
+
+
+      document
+        .getElementById(
+          "closeLoginModal"
+        )
+        ?.addEventListener(
+          "click",
+          closeArticleLoginModal
+        );
+
+
+      document
+        .querySelector(
+          "#loginModal .modal-backdrop"
+        )
+        ?.addEventListener(
+          "click",
+          closeArticleLoginModal
+        );
+
+
+      document
+        .getElementById(
+          "closeAccountModal"
+        )
+        ?.addEventListener(
+          "click",
+          closeArticleAccountModal
+        );
+
+
+      document
+        .querySelector(
+          "#accountModal .modal-backdrop"
+        )
+        ?.addEventListener(
+          "click",
+          closeArticleAccountModal
+        );
+
+
+      document
+        .getElementById(
+          "logoutButton"
+        )
+        ?.addEventListener(
+          "click",
+          () => {
+
+            window.KAISOUL_NEWS
+              ?.logout();
+
+            closeArticleAccountModal();
+
+          }
+        );
+
+
+      document
+        .getElementById(
+          "profileButton"
+        )
+        ?.addEventListener(
+          "click",
+          () => {
+
+            window.location.href =
+              "https://phanvanthanh702-dev.github.io/KAISOUL-ID/";
+
+          }
+        );
+
+    }
+
+
+    /* =====================================================
+       LOAD ARTICLE
+    ====================================================== */
+
+    async function loadArticle() {
+
+      const api =
+        window.KAISOUL_NEWS?.config
+          ?.API_BASE || "/api";
+
+
+      try {
+
+        let endpoint;
+
+        if (articlePageState.slug) {
+
+          endpoint =
+            `/articles/${encodeURIComponent(
+              articlePageState.slug
+            )}`;
+
+        } else {
+
+          /*
+            Backend hiện tại lấy bài theo slug.
+            Nếu chỉ có id, lấy danh sách và tìm.
+          */
+
+          const response =
+            await fetch(
+              `${api}/articles?status=published`
+            );
+
+          const data =
+            await response.json();
+
+          const articles =
+            Array.isArray(
+              data?.articles
+            )
+              ? data.articles
+              : [];
+
+          const found =
+            articles.find(
+              (item) =>
+                item.id ===
+                articlePageState.id
+            );
+
+          if (!found) {
+            throw new Error(
+              "Không tìm thấy bài viết."
+            );
+          }
+
+          renderArticle(found);
+
+          await loadComments(
+            found.id
+          );
+
+          await loadRelated(
+            found
+          );
+
+          await registerView(
+            found.id
+          );
+
+          return;
+        }
+
+
+        const response =
+          await fetch(
+            `${api}${endpoint}`
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (
+          !response.ok ||
+          !data?.article
+        ) {
+
+          throw new Error(
+            data?.message ||
+            "Không tìm thấy bài viết."
+          );
+        }
+
+
+        renderArticle(
+          data.article
+        );
+
+
+        await loadComments(
+          data.article.id
+        );
+
+
+        await loadRelated(
+          data.article
+        );
+
+
+        await registerView(
+          data.article.id
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Article loading error:",
+          error
+        );
+
+        showArticleError(
+          error.message
+        );
+      }
+    }
+
+
+    /* =====================================================
+       RENDER ARTICLE
+    ====================================================== */
+
+    function renderArticle(
+      article
+    ) {
+
+      articlePageState.article =
+        article;
+
+
+      document.title =
+        `${article.title || "Bài viết"} — KAISOUL NEWS`;
+
+
+      const category =
+        getCategoryName(
+          article.categoryId
+        );
+
+
+      setText(
+        "articleCategory",
+        category
+      );
+
+      setText(
+        "breadcrumbCategory",
+        category
+      );
+
+
+      setText(
+        "articleTitle",
+        article.title ||
+          "Không có tiêu đề"
+      );
+
+
+      const description =
+        document.getElementById(
+          "articleDescription"
+        );
+
+
+      if (article.description) {
+
+        description.hidden =
+          false;
+
+        description.textContent =
+          article.description;
+
+      } else {
+
+        description.hidden =
+          true;
+      }
+
+
+      setText(
+        "articleAuthor",
+        article.author ||
+          article.source ||
+          "KAISOUL NEWS"
+      );
+
+
+      setText(
+        "articleDate",
+        formatDate(
+          article.publishedAt ||
+          article.createdAt
+        )
+      );
+
+
+      setText(
+        "articleUpdated",
+        article.updatedAt
+          ? `Cập nhật ${formatDate(
+              article.updatedAt
+            )}`
+          : ""
+      );
+
+
+      setText(
+        "viewCount",
+        Number(
+          article.viewCount || 0
+        )
+      );
+
+
+      setText(
+        "likeCount",
+        Number(
+          article.likeCount || 0
+        )
+      );
+
+
+      setText(
+        "commentCount",
+        Number(
+          article.commentCount || 0
+        )
+      );
+
+
+      const cover =
+        document.getElementById(
+          "articleCover"
+        );
+
+
+      if (article.cover) {
+
+        cover.src =
+          article.cover;
+
+        cover.alt =
+          article.title ||
+          "Ảnh bài viết";
+
+        cover.hidden =
+          false;
+
+        cover.onerror =
+          () => {
+
+            cover.hidden =
+              true;
+          };
+
+      } else {
+
+        cover.hidden =
+          true;
+      }
+
+
+      /*
+        Nội dung bài viết:
+        Backend nên lưu HTML đã được
+        sanitize ở server.
+
+        Không dùng innerHTML cho dữ liệu
+        người dùng chưa được kiểm duyệt.
+      */
+
+      const content =
+        document.getElementById(
+          "articleContent"
+        );
+
+
+      content.innerHTML =
+        sanitizeArticleHTML(
+          article.content ||
+          "<p>Chưa có nội dung.</p>"
+        );
+
+
+      const source =
+        document.getElementById(
+          "articleSource"
+        );
+
+
+      if (article.source) {
+
+        source.hidden =
+          false;
+
+        source.innerHTML =
+          `Nguồn: <strong>${escapeHTML(
+            article.source
+          )}</strong>`;
+
+      } else {
+
+        source.hidden =
+          true;
+      }
+
+
+      document.getElementById(
+        "articleLoading"
+      ).hidden = true;
+
+
+      document.getElementById(
+        "articleContainer"
+      ).hidden = false;
+    }
+
+
+    /* =====================================================
+       COMMENTS
+    ====================================================== */
+
+    async function loadComments(
+      articleId
+    ) {
+
+      const list =
+        document.getElementById(
+          "commentsList"
+        );
+
+
+      try {
+
+        const api =
+          window.KAISOUL_NEWS
+            ?.config
+            ?.API_BASE || "/api";
+
+
+        const response =
+          await fetch(
+            `${api}/articles/${encodeURIComponent(
+              articleId
+            )}/comments`
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (
+          !response.ok
+        ) {
+
+          throw new Error(
+            data?.message ||
+            "Không thể tải bình luận."
+          );
+        }
+
+
+        const comments =
+          Array.isArray(
+            data?.comments
+          )
+            ? data.comments
+            : [];
+
+
+        setText(
+          "commentCount",
+          comments.length
+        );
+
+
+        if (!comments.length) {
+
+          list.innerHTML =
+            `<div class="empty-state">
+              Chưa có bình luận.
+            </div>`;
+
+          return;
+        }
+
+
+        list.innerHTML =
+          comments
+            .map(
+              createComment
+            )
+            .join("");
+
+
+      } catch (error) {
+
+        console.error(
+          "Comments error:",
+          error
+        );
+
+        list.innerHTML =
+          `<div class="empty-state">
+            Không thể tải bình luận.
+          </div>`;
+      }
+    }
+
+
+    function createComment(
+      comment
+    ) {
+
+      return `
+        <article class="comment">
+
+          <div class="comment-header">
+
+            <span class="comment-user">
+              ${escapeHTML(
+                comment.kaisoulId ||
+                "KAISOUL ID"
+              )}
+            </span>
+
+            <time class="comment-time">
+              ${formatDate(
+                comment.createdAt
+              )}
+            </time>
+
+          </div>
+
+          <div class="comment-content">
+            ${escapeHTML(
+              comment.content || ""
+            )}
+          </div>
+
+        </article>
+      `;
+    }
+
+
+    async function submitComment(
+      event
+    ) {
+
+      event.preventDefault();
+
+
+      const api =
+        window.KAISOUL_NEWS;
+
+
+      if (!api?.requireLogin()) {
+        return;
+      }
+
+
+      const input =
+        document.getElementById(
+          "commentInput"
+        );
+
+
+      const content =
+        input.value.trim();
+
+
+      if (!content) {
+
+        api.showToast(
+          "Hãy nhập nội dung bình luận."
+        );
+
+        return;
+      }
+
+
+      if (!articlePageState.article) {
+        return;
+      }
+
+
+      try {
+
+        await fetchArticleAPI(
+          `/articles/${encodeURIComponent(
+            articlePageState.article.id
+          )}/comments`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              content
+            })
+          }
+        );
+
+
+        input.value = "";
+
+
+        api.showToast(
+          "Đã gửi bình luận."
+        );
+
+
+        await loadComments(
+          articlePageState.article.id
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Comment submit error:",
+          error
+        );
+
+        api.showToast(
+          error.message ||
+          "Không thể gửi bình luận."
+        );
+      }
+    }
+
+
+    /* =====================================================
+       LIKE
+    ====================================================== */
+
+    async function handleLike() {
+
+      if (
+        !window.KAISOUL_NEWS
+          ?.requireLogin()
+      ) {
+        return;
+      }
+
+
+      const article =
+        articlePageState.article;
+
+
+      if (!article) {
+        return;
+      }
+
+
+      const button =
+        document.getElementById(
+          "likeButton"
+        );
+
+
+      try {
+
+        const data =
+          await fetchArticleAPI(
+            `/articles/${encodeURIComponent(
+              article.id
+            )}/like`,
+            {
+              method: "POST"
+            }
+          );
+
+
+        setText(
+          "likeCount",
+          Number(
+            data.likeCount || 0
+          )
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+        button.textContent =
+          "♥ Đã thích";
+
+
+      } catch (error) {
+
+        if (
+          error.message.includes(
+            "đã thích"
+          )
+        ) {
+
+          button.classList.add(
+            "active"
+          );
+
+          button.textContent =
+            "♥ Đã thích";
+
+          return;
+        }
+
+
+        window.KAISOUL_NEWS
+          ?.showToast(
+            error.message ||
+            "Không thể thích bài viết."
+          );
+      }
+    }
+
+
+    /* =====================================================
+       BOOKMARK
+    ====================================================== */
+
+    async function handleBookmark() {
+
+      if (
+        !window.KAISOUL_NEWS
+          ?.requireLogin()
+      ) {
+        return;
+      }
+
+
+      const article =
+        articlePageState.article;
+
+
+      if (!article) {
+        return;
+      }
+
+
+      const button =
+        document.getElementById(
+          "bookmarkButton"
+        );
+
+
+      try {
+
+        await fetchArticleAPI(
+          `/articles/${encodeURIComponent(
+            article.id
+          )}/bookmark`,
+          {
+            method: "POST"
+          }
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+        button.textContent =
+          "🔖 Đã lưu";
+
+
+      } catch (error) {
+
+        if (
+          error.message.includes(
+            "đã được lưu"
+          )
+        ) {
+
+          button.classList.add(
+            "active"
+          );
+
+          button.textContent =
+            "🔖 Đã lưu";
+
+          return;
+        }
+
+
+        window.KAISOUL_NEWS
+          ?.showToast(
+            error.message ||
+            "Không thể lưu bài viết."
+          );
+      }
+    }
+
+
+    /* =====================================================
+       SHARE
+    ====================================================== */
+
+    async function shareArticle() {
+
+      const article =
+        articlePageState.article;
+
+
+      if (!article) {
+        return;
+      }
+
+
+      const url =
+        window.location.href;
+
+
+      try {
+
+        if (
+          navigator.share
+        ) {
+
+          await navigator.share({
+            title:
+              article.title ||
+              "KAISOUL NEWS",
+            text:
+              article.description ||
+              "",
+            url
+          });
+
+          return;
+        }
+
+
+        await navigator.clipboard
+          .writeText(url);
+
+
+        window.KAISOUL_NEWS
+          ?.showToast(
+            "Đã sao chép liên kết."
+          );
+
+
+      } catch (error) {
+
+        console.warn(
+          "Share cancelled/failed:",
+          error
+        );
+      }
+    }
+
+
+    /* =====================================================
+       COPY LINK
+    ====================================================== */
+
+    async function copyArticleLink() {
+
+      try {
+
+        await navigator.clipboard
+          .writeText(
+            window.location.href
+          );
+
+
+        window.KAISOUL_NEWS
+          ?.showToast(
+            "Đã sao chép link bài viết."
+          );
+
+
+      } catch {
+
+        window.KAISOUL_NEWS
+          ?.showToast(
+            "Không thể sao chép link."
+          );
+      }
+    }
+
+
+    /* =====================================================
+       RELATED
+    ====================================================== */
+
+    async function loadRelated(
+      article
+    ) {
+
+      const container =
+        document.getElementById(
+          "relatedNews"
+        );
+
+
+      try {
+
+        const api =
+          window.KAISOUL_NEWS
+            ?.config
+            ?.API_BASE || "/api";
+
+
+        const category =
+          article.categoryId ||
+          "";
+
+
+        const endpoint =
+          `/articles?status=published&category=${encodeURIComponent(
+            category
+          )}`;
+
+
+        const response =
+          await fetch(
+            `${api}${endpoint}`
+          );
+
+
+        const data =
+          await response.json();
+
+
+        let articles =
+          Array.isArray(
+            data?.articles
+          )
+            ? data.articles
+            : [];
+
+
+        articles =
+          articles
+            .filter(
+              (item) =>
+                item.id !== article.id
+            )
+            .slice(0, 4);
+
+
+        if (!articles.length) {
+
+          container.innerHTML =
+            `<div class="empty-state">
+              Chưa có tin liên quan.
+            </div>`;
+
+          return;
+        }
+
+
+        container.innerHTML =
+          articles
+            .map(
+              createRelatedCard
+            )
+            .join("");
+
+
+      } catch {
+
+        container.innerHTML =
+          `<div class="empty-state">
+            Chưa có tin liên quan.
+          </div>`;
+      }
+    }
+
+
+    function createRelatedCard(
+      article
+    ) {
+
+      const image =
+        article.cover
+          ? `<img
+              class="news-card-image"
+              src="${escapeAttribute(
+                article.cover
+              )}"
+              alt="${escapeAttribute(
+                article.title || ""
+              )}"
+              loading="lazy"
+            >`
+          : "";
+
+
+      return `
+        <article class="news-card">
+
+          <a
+            href="${articleUrl(
+              article
+            )}"
+          >
+
+            <div class="news-card-image-wrap">
+              ${image}
+            </div>
+
+            <div class="news-card-content">
+
+              <div class="news-card-category">
+                ${escapeHTML(
+                  getCategoryName(
+                    article.categoryId
+                  )
+                )}
+              </div>
+
+              <h3 class="news-card-title">
+                ${escapeHTML(
+                  article.title ||
+                  "Không có tiêu đề"
+                )}
+              </h3>
+
+              <div class="news-card-meta">
+
+                <span>
+                  ${formatDate(
+                    article.publishedAt ||
+                    article.createdAt
+                  )}
+                </span>
+
+                <span class="separator">
+                  •
+                </span>
+
+                <span>
+                  ${Number(
+                    article.viewCount || 0
+                  )} lượt xem
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+        </article>
+      `;
+    }
+
+
+    /* =====================================================
+       VIEW
+    ====================================================== */
+
+    async function registerView(
+      articleId
+    ) {
+
+      try {
+
+        if (
+          window.KAISOUL_NEWS
+            ?.registerArticleView
+        ) {
+
+          await window.KAISOUL_NEWS
+            .registerArticleView(
+              articleId
+            );
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "View error:",
+          error
+        );
+      }
+    }
+
+
+    /* =====================================================
+       API HELPER
+    ====================================================== */
+
+    async function fetchArticleAPI(
+      endpoint,
+      options = {}
+    ) {
+
+      const config =
+        window.KAISOUL_NEWS
+          ?.config;
+
+
+      const api =
+        config?.API_BASE ||
+        "/api";
+
+
+      const headers = {
+        ...(options.body
+          ? {
+              "Content-Type":
+                "application/json"
+            }
+          : {}),
+        ...(options.headers || {})
+      };
+
+
+      const token =
+        localStorage.getItem(
+          "kaisoul_news_token"
+        );
+
+
+      if (token) {
+
+        headers.Authorization =
+          `Bearer ${token}`;
+      }
+
+
+      const response =
+        await fetch(
+          `${api}${endpoint}`,
+          {
+            ...options,
+            headers
+          }
+        );
+
+
+      let data = null;
+
+
+      try {
+
+        data =
+          await response.json();
+
+      } catch {
+
+        data = null;
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data?.message ||
+          `API error ${response.status}`
+        );
+      }
+
+
+      return data;
+    }
+
+
+    /* =====================================================
+       LOGIN MODAL
+    ====================================================== */
+
+    function openArticleLoginModal() {
+
+      const modal =
+        document.getElementById(
+          "loginModal"
+        );
+
+
+      if (!modal) {
+        return;
+      }
+
+
+      modal.hidden =
+        false;
+    }
+
+
+    function closeArticleLoginModal() {
+
+      const modal =
+        document.getElementById(
+          "loginModal"
+        );
+
+
+      if (modal) {
+        modal.hidden =
+          true;
+      }
+    }
+
+
+    function closeArticleAccountModal() {
+
+      const modal =
+        document.getElementById(
+          "accountModal"
+        );
+
+
+      if (modal) {
+        modal.hidden =
+          true;
+      }
+    }
+
+
+    /* =====================================================
+       ERROR
+    ====================================================== */
+
+    function showArticleError(
+      message
+    ) {
+
+      document.getElementById(
+        "articleLoading"
+      ).hidden = true;
+
+
+      document.getElementById(
+        "articleContainer"
+      ).hidden = true;
+
+
+      const error =
+        document.getElementById(
+          "articleError"
+        );
+
+
+      error.hidden =
+        false;
+
+
+      setText(
+        "articleErrorMessage",
+        message ||
+        "Không tìm thấy bài viết."
+      );
+    }
+
+
+    /* =====================================================
+       HELPERS
+    ====================================================== */
+
+    function setText(
+      id,
+      value
+    ) {
+
+      const element =
+        document.getElementById(id);
+
+
+      if (element) {
+        element.textContent =
+          value ?? "";
+      }
+    }
+
+
+    function getCategoryName(
+      categoryId
+    ) {
+
+      const categories =
+        window.KAISOUL_NEWS
+          ?.state
+          ?.categories || [];
+
+
+      const found =
+        categories.find(
+          (category) =>
+            category.id ===
+              categoryId ||
+            category.slug ===
+              categoryId
+        );
+
+
+      if (found) {
+
+        return (
+          found.name ||
+          found.title ||
+          categoryId ||
+          "Tin tức"
+        );
+      }
+
+
+      const fallback = {
+        vietnam: "Việt Nam",
+        world: "Thế giới",
+        sports: "Thể thao",
+        technology: "Công nghệ",
+        entertainment: "Giải trí",
+        economy: "Kinh tế"
+      };
+
+
+      return (
+        fallback[categoryId] ||
+        categoryId ||
+        "Tin tức"
+      );
+    }
+
+
+    function formatDate(
+      value
+    ) {
+
+      if (!value) {
+        return "Chưa xác định";
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "Chưa xác định";
+      }
+
+
+      return new Intl.DateTimeFormat(
+        "vi-VN",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      ).format(date);
+    }
+
+
+    function articleUrl(
+      article
+    ) {
+
+      if (article.slug) {
+
+        return `article.html?slug=${encodeURIComponent(
+          article.slug
+        )}`;
+      }
+
+
+      return `article.html?id=${encodeURIComponent(
+        article.id || ""
+      )}`;
+    }
+
+
+    function escapeHTML(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+    }
+
+
+    function escapeAttribute(
+      value
+    ) {
+
+      return escapeHTML(
+        value
+      );
+    }
+
+
+    /*
+      Đây chỉ là lớp bảo vệ cơ bản ở frontend.
+
+      Production bắt buộc phải sanitize
+      content ở SERVER trước khi lưu/
+      trả về client.
+
+      Không cho phép script,
+      iframe, object, embed và event handler.
+    */
+
+    function sanitizeArticleHTML(
+      html
+    ) {
+
+      const template =
+        document.createElement(
+          "template"
+        );
+
+
+      template.innerHTML =
+        String(html);
+
+
+      const dangerous =
+        template.content.querySelectorAll(
+          "script, iframe, object, embed, form"
+        );
+
+
+      dangerous.forEach(
+        (element) =>
+          element.remove()
+      );
+
+
+      template.content
+        .querySelectorAll("*")
+        .forEach(
+          (element) => {
+
+            [...element.attributes]
+              .forEach(
+                (attribute) => {
+
+                  const name =
+                    attribute.name
+                      .toLowerCase();
+
+                  const value =
+                    attribute.value
+                      .trim()
+                      .toLowerCase();
+
+
+                  if (
+                    name.startsWith(
+                      "on"
+                    )
+                  ) {
+
+                    element.removeAttribute(
+                      attribute.name
+                    );
+
+                    return;
+                  }
+
+
+                  if (
+                    (
+                      name === "href" ||
+                      name === "src"
+                    ) &&
+                    value.startsWith(
+                      "javascript:"
+                    )
+                  ) {
+
+                    element.removeAttribute(
+                      attribute.name
+                    );
+                  }
+
+                }
+              );
+
+          }
+        );
+
+
+      return template.innerHTML;
+    }
+
+  </script>
+
+</body>
+  </html>
