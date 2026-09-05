@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="description"
+    content="KAISOUL NEWS — Tin tức mới nhất Việt Nam, Thế giới, Thể thao, Công nghệ, Giải trí và Kinh tế."
+  >
+
+  <meta name="theme-color" content="#ffffff">
+
+  <title>KAISOUL NEWS</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="site-header">
+
+    <div class="header-inner">
+
+      <button
+        class="icon-button"
+        id="menuButton"
+        type="button"
+        aria-label="Mở menu"
+      >
+        ☰
+      </button>
+
+      <a href="index.html" class="brand">
+        <span class="brand-main">KAISOUL</span>
+        <span class="brand-news">NEWS</span>
+      </a>
+
+      <div class="header-actions">
+
+        <button
+          class="icon-button"
+          id="searchButton"
+          type="button"
+          aria-label="Tìm kiếm"
+        >
+          🔍
+        </button>
+
+        <button
+          class="account-button"
+          id="accountButton"
+          type="button"
+        >
+          <span id="accountAvatar">👤</span>
+          <span id="accountText">Đăng nhập</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MOBILE MENU
+  ========================== -->
+
+  <aside class="side-menu" id="sideMenu">
+
+    <div class="side-menu-header">
+
+      <strong>KAISOUL NEWS</strong>
+
+      <button
+        class="icon-button"
+        id="closeMenuButton"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <nav class="side-navigation">
+
+      <a href="#latest">🏠 Mới nhất</a>
+      <a href="#vietnam">🇻🇳 Việt Nam</a>
+      <a href="#world">🌎 Thế giới</a>
+      <a href="#sports">⚽ Thể thao</a>
+      <a href="#technology">💻 Công nghệ</a>
+      <a href="#entertainment">🎬 Giải trí</a>
+      <a href="#economy">💰 Kinh tế</a>
+
+    </nav>
+
+  </aside>
+
+  <div class="menu-overlay" id="menuOverlay"></div>
+
+
+  <!-- =========================
+       SEARCH
+  ========================== -->
+
+  <section class="search-panel" id="searchPanel">
+
+    <div class="search-inner">
+
+      <form id="searchForm">
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Tìm kiếm tin tức..."
+          autocomplete="off"
+        >
+
+        <button type="submit">
+          Tìm kiếm
+        </button>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       BREAKING NEWS
+  ========================== -->
+
+  <section
+    class="breaking-bar"
+    id="breakingBar"
+    hidden
+  >
+
+    <div class="breaking-inner">
+
+      <span class="breaking-label">
+        🔴 TIN NÓNG
+      </span>
+
+      <a
+        href="#"
+        id="breakingLink"
+      >
+        Đang tải...
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="main-content">
+
+    <!-- HERO -->
+
+    <section class="hero-section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-kicker">
+            KAISOUL NEWS
+          </span>
+
+          <h1>Tin tức mới nhất</h1>
+        </div>
+
+        <button
+          class="refresh-button"
+          id="refreshButton"
+          type="button"
+        >
+          ↻
+        </button>
+
+      </div>
+
+      <div
+        class="hero-grid"
+        id="heroNews"
+      >
+
+        <!-- JavaScript render -->
+
+        <div class="loading-card">
+          <div class="loading-image"></div>
+          <div class="loading-lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CATEGORY NAVIGATION
+    ========================== -->
+
+    <section class="category-section">
+
+      <div class="category-scroll" id="categoryNavigation">
+
+        <button
+          class="category-chip active"
+          data-category=""
+          type="button"
+        >
+          Mới nhất
+        </button>
+
+        <button
+          class="category-chip"
+          data-category="vietnam"
+          type="button"
+        >
+          🇻🇳 Việt Nam
+        </button>
+
+        <button
+          class="category-chip"
+          data-category="world"
+          type="button"
+        >
+          🌎 Thế giới
+        </button>
+
+        <button
+          class="category-chip"
+          data-category="sports"
+          type="button"
+        >
+          ⚽ Thể thao
+        </button>
+
+        <button
+          class="category-chip"
+          data-category="technology"
+          type="button"
+        >
+          💻 Công nghệ
+        </button>
+
+        <button
+          class="category-chip"
+          data-category="entertainment"
+          type="button"
+        >
+          🎬 Giải trí
+        </button>
+
+        <button
+          class="category-chip"
+          data-category="economy"
+          type="button"
+        >
+          💰 Kinh tế
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         LATEST NEWS
+    ========================== -->
+
+    <section
+      class="news-section"
+      id="latest"
+    >
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-kicker">
+            CẬP NHẬT
+          </span>
+
+          <h2>Mới nhất</h2>
+        </div>
+
+      </div>
+
+      <div
+        class="news-grid"
+        id="latestNews"
+      >
+
+        <div class="loading-list">
+          Đang tải tin tức...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURED
+    ========================== -->
+
+    <section class="news-section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-kicker">
+            ĐỀ XUẤT
+          </span>
+
+          <h2>Tin nổi bật</h2>
+        </div>
+
+      </div>
+
+      <div
+        class="news-grid"
+        id="featuredNews"
+      >
+
+        <div class="loading-list">
+          Đang tải...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         POPULAR
+    ========================== -->
+
+    <section class="news-section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-kicker">
+            ĐƯỢC QUAN TÂM
+          </span>
+
+          <h2>Phổ biến</h2>
+        </div>
+
+      </div>
+
+      <div
+        class="news-grid"
+        id="popularNews"
+      >
+
+        <div class="empty-state">
+          Chưa có dữ liệu.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CATEGORY SECTIONS
+    ========================== -->
+
+    <section
+      class="news-section"
+      id="vietnam"
+    >
+
+      <div class="section-heading">
+        <h2>🇻🇳 Việt Nam</h2>
+
+        <button
+          class="text-button"
+          data-category-link="vietnam"
+          type="button"
+        >
+          Xem tất cả
+        </button>
+      </div>
+
+      <div
+        class="horizontal-news"
+        data-category-news="vietnam"
+      >
+        <div class="loading-list">
+          Đang tải...
+        </div>
+      </div>
+
+    </section>
+
+
+    <section
+      class="news-section"
+      id="world"
+    >
+
+      <div class="section-heading">
+        <h2>🌎 Thế giới</h2>
+
+        <button
+          class="text-button"
+          data-category-link="world"
+          type="button"
+        >
+          Xem tất cả
+        </button>
+      </div>
+
+      <div
+        class="horizontal-news"
+        data-category-news="world"
+      >
+        <div class="loading-list">
+          Đang tải...
+        </div>
+      </div>
+
+    </section>
+
+
+    <section
+      class="news-section"
+      id="sports"
+    >
+
+      <div class="section-heading">
+        <h2>⚽ Thể thao</h2>
+
+        <button
+          class="text-button"
+          data-category-link="sports"
+          type="button"
+        >
+          Xem tất cả
+        </button>
+      </div>
+
+      <div
+        class="horizontal-news"
+        data-category-news="sports"
+      >
+        <div class="loading-list">
+          Đang tải...
+        </div>
+      </div>
+
+    </section>
+
+
+    <section
+      class="news-section"
+      id="technology"
+    >
+
+      <div class="section-heading">
+        <h2>💻 Công nghệ</h2>
+
+        <button
+          class="text-button"
+          data-category-link="technology"
+          type="button"
+        >
+          Xem tất cả
+        </button>
+      </div>
+
+      <div
+        class="horizontal-news"
+        data-category-news="technology"
+      >
+        <div class="loading-list">
+          Đang tải...
+        </div>
+      </div>
+
+    </section>
+
+
+    <section
+      class="news-section"
+      id="entertainment"
+    >
+
+      <div class="section-heading">
+        <h2>🎬 Giải trí</h2>
+
+        <button
+          class="text-button"
+          data-category-link="entertainment"
+          type="button"
+        >
+          Xem tất cả
+        </button>
+      </div>
+
+      <div
+        class="horizontal-news"
+        data-category-news="entertainment"
+      >
+        <div class="loading-list">
+          Đang tải...
+        </div>
+      </div>
+
+    </section>
+
+
+    <section
+      class="news-section"
+      id="economy"
+    >
+
+      <div class="section-heading">
+        <h2>💰 Kinh tế</h2>
+
+        <button
+          class="text-button"
+          data-category-link="economy"
+          type="button"
+        >
+          Xem tất cả
+        </button>
+      </div>
+
+      <div
+        class="horizontal-news"
+        data-category-news="economy"
+      >
+        <div class="loading-list">
+          Đang tải...
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         NO RESULT
+    ========================== -->
+
+    <section
+      class="empty-section"
+      id="noResults"
+      hidden
+    >
+
+      <div class="empty-icon">
+        🔎
+      </div>
+
+      <h2>Không tìm thấy tin tức</h2>
+
+      <p>
+        Thử tìm kiếm bằng từ khóa khác.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       LOGIN MODAL
+  ========================== -->
+
+  <div
+    class="modal"
+    id="loginModal"
+    hidden
+  >
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-card">
+
+      <button
+        class="modal-close"
+        id="closeLoginModal"
+        type="button"
+        aria-label="Đóng"
+      >
+        ×
+      </button>
+
+      <div class="modal-icon">
+        🔐
+      </div>
+
+      <h2>Đăng nhập KAISOUL ID</h2>
+
+      <p>
+        Đăng nhập bằng KAISOUL ID để sử dụng
+        Like, Bình luận, Lưu bài viết và các
+        tính năng dành cho thành viên.
+      </p>
+
+      <button
+        class="primary-button"
+        id="loginKaisoulButton"
+        type="button"
+      >
+        Đăng nhập bằng KAISOUL ID
+      </button>
+
+      <button
+        class="secondary-button"
+        id="registerKaisoulButton"
+        type="button"
+      >
+        Đăng ký KAISOUL ID
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       ACCOUNT MODAL
+  ========================== -->
+
+  <div
+    class="modal"
+    id="accountModal"
+    hidden
+  >
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-card account-modal">
+
+      <button
+        class="modal-close"
+        id="closeAccountModal"
+        type="button"
+      >
+        ×
+      </button>
+
+      <div class="account-profile">
+
+        <div
+          class="large-avatar"
+          id="profileAvatar"
+        >
+          👤
+        </div>
+
+        <h2 id="profileName">
+          Người dùng
+        </h2>
+
+        <p id="profileKaisoulId">
+          KAISOUL ID
+        </p>
+
+      </div>
+
+      <div class="account-actions">
+
+        <button
+          class="account-action"
+          id="profileButton"
+          type="button"
+        >
+          👤 Hồ sơ KAISOUL ID
+        </button>
+
+        <button
+          class="account-action"
+          id="savedButton"
+          type="button"
+        >
+          🔖 Bài viết đã lưu
+        </button>
+
+        <button
+          class="account-action danger"
+          id="logoutButton"
+          type="button"
+        >
+          🚪 Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       TOAST
+  ========================== -->
+
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  >
+    <span id="toastMessage"></span>
+  </div>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer class="site-footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <strong>KAISOUL NEWS</strong>
+
+        <p>
+          Nền tảng tin tức của KAISOUL.
+        </p>
+      </div>
+
+      <div class="footer-links">
+
+        <a href="#">Giới thiệu</a>
+        <a href="#">Điều khoản</a>
+        <a href="#">Chính sách</a>
+        <a href="#">Liên hệ</a>
+
+      </div>
+
+      <div class="footer-bottom">
+
+        <span>
+          © 2026 KAISOUL NEWS
+        </span>
+
+        <span>
+          Powered by KAISOUL
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       APP
+  ========================== -->
+
+  <script src="app.js" defer></script>
+
+</body>
+  </html>
